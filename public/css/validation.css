@@ -1,0 +1,80 @@
+input, textarea {
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 4px;
+    font-family: 'Lato';
+    width: 300px;
+    margin-top: 10px;
+    outline: none;
+  }
+  
+  label {
+    width: 300px;
+    font-weight: bold;
+    display: inline-block;
+    margin-top: 20px;
+  }
+  
+  label span {
+    font-size: 1rem;
+  }
+  
+  label.error {
+      color: red;
+      font-size: 1rem;
+      display: block;
+      margin-top: 5px;
+  }
+  
+  label.error.fail-alert {
+      border: 2px solid red;
+      border-radius: 4px;
+      line-height: 1;
+      padding: 2px 0 6px 6px;
+      background: #ffe6eb;
+  }
+  
+  input.valid.success-alert {
+      border: 2px solid #4CAF50;
+      color: green;
+  }
+  
+  input.error, textarea.error {
+      border: 1px dashed red;
+      font-weight: 300;
+      color: red;
+  }
+
+
+label.error.fail-alert {
+    border: 2px solid red;
+    border-radius: 4px;
+    line-height: 1;
+    padding: 2px 0 6px 6px;
+    background: #ffe6eb;
+}
+input.valid.success-alert {
+    border: 2px solid #4CAF50;
+    color: green;
+}
+
+
+.paging-nav {
+    text-align: right;
+    padding-top: 2px;
+  }
+  
+  .paging-nav a {
+    margin: auto 1px;
+    text-decoration: none;
+    display: inline-block;
+    padding: 1px 7px;
+    background: #91b9e6;
+    color: white;
+    border-radius: 3px;
+  }
+  
+  .paging-nav .selected-page {
+    background: #187ed5;
+    font-weight: bold;
+  }
