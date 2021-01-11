@@ -55,19 +55,8 @@ $(document).ready(function(){
                     if(data["message"]){
                         alert(data["message"]);
                     }else if(data["success"]){
-                        window.location.href = "/login";
+                        window.location.href = "/film";
                     }
-                    // else {
-                    //     const email = data["user"]["email"];
-                    //     const username = data["user"]["name"];
-                    //     const access_token = data["access_token"];
-
-                    //     localStorage.setItem("email",email);
-                    //     localStorage.setItem("username", username);
-                    //     localStorage.setItem("access_token",access_token);
-
-                    //     window.location.href = "/";
-                    // }
                 },
                 error: function(error) {
                 console.log('error');

@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Mail;
 use App\Events\UserLogin;
 use Illuminate\Support\Facades\Event;
 use App\Models\LoginLog;
-use Auth;
 
 class AuthController extends Controller
 {
@@ -57,7 +56,7 @@ class AuthController extends Controller
                 // mail is now using events-listeners
                 // Mail::to($request->email)->send(new LoginEmail);
 
-                $accessToken = Auth::auth()->user()->createToken('authToken')->accessToken;
+                $accessToken = auth()->user()->createToken('authToken')->accessToken;
                 return response()->json(['user' => auth()->user(), 'access_token' => $accessToken]);
             }    
         }

@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware(['api', 'check.access'])->get('/user', function (Request $request) {
+Route::middleware(['auth:api'])->get('/user', function (Request $request) {
     return $request->user();
 });
 
@@ -25,7 +25,7 @@ Route::post('/logout', 'API\AuthController@logout')->middleware('auth:api');
 
 
 
-Route::middleware(['check.access', 'api'])->group(function () {
+Route::middleware('auth:api')->group(function () {
     Route::get('/actor/all',[
         'uses' => 'ActorController@browseActors',
         'as' => 'actor.browseActors',
@@ -37,4 +37,56 @@ Route::middleware(['check.access', 'api'])->group(function () {
     ]);
 
     Route::Resource('/actor', 'ActorController');
+
+    Route::get('/film/all',[
+        'uses' => 'FilmController@browseFilms',
+        'as' => 'film.browseFilms',
+    ]);
+    
+    Route::get('/film/show/{id}',[
+        'uses' => 'FilmController@show',
+        'as' => 'film.show',
+    ]);
+
+    Route::resource('/film', 'FilmController');
+
+    Route::get('/genre/all',[
+        'uses' => '\App\Http\Controllers\GenreController@browseGenres',
+        'as' => 'genre.browseGenres',
+    ]);
+    
+    Route::get('/genre/show/{id}',[
+        'uses' => '\App\Http\Controllers\genreController@show',
+        'as' => 'genre.show',
+    ]);
+    
+    Route::resource('/genre', 'GenreController');
+
+    Route::get('/producer/all',[
+        'uses' => '\App\Http\Controllers\ProducerController@browseProducers',
+        'as' => 'producer.browseProducers',
+    ]);
+    
+    Route::get('/producer/show/{id}',[
+        'uses' => '\App\Http\Controllers\ProducerController@show',
+        'as' => 'producer.show',
+    ]);
+    Route::resource('/producer', '\App\Http\Controllers\ProducerController');
+
+    Route::get('/role/all',[
+        'uses' => '\App\Http\Controllers\RoleController@browseRoles',
+        'as' => 'role.browseRoles',
+    ]);
+    
+    Route::get('/role/show/{id}',[
+        'uses' => '\App\Http\Controllers\RoleController@show',
+        'as' => 'role.show',
+    ]);
+    
+    Route::resource('/role', 'RoleController');
+
+    Route::get('/certificate/all',[
+        'uses' => '\App\Http\Controllers\CertificateController@browseCerts',
+        'as' => 'certificate.browseCerts',
+    ]);
 });

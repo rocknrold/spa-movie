@@ -49,8 +49,12 @@ $(document).ready(function(){
     
         $.ajax({
             type: "GET",
-            url: "/film/all",
+            url: "api/film/all",
             dataType: 'json',
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 
+                    'Authorization' : 'Bearer '+ localStorage.getItem("access_token")},
+            dataType: "json",
+            contentType: "application/json",
             success: function (data) {
                 $.each(data, function(key, value) {
                     availableFilms.push({"label": value.name, "value": value.id });
@@ -67,7 +71,7 @@ $(document).ready(function(){
             },
             error: function(){
               console.log('AJAX load did not work');
-              alert("error");
+              $("#modal-login-form").dialog().dialog("open");
             }
         });
     
@@ -92,8 +96,12 @@ $(document).ready(function(){
         if ($('input[id="film-search"]').val() != "") {
             $.ajax({
                 type : "GET",
-                url : "/film/show/" + id,
+                url : "api/film/show/" + id,
+                dataType: 'json',
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 
+                        'Authorization' : 'Bearer '+ localStorage.getItem("access_token")},
                 dataType: "json",
+                contentType: "application/json",
                 success : function(data){
                     var duration_in_hrs = Math.floor(data.duration/60);
                     var duration_rm_mins = Math.round(data.duration%60);
@@ -155,10 +163,13 @@ $(document).ready(function(){
 
                     $.ajax({
                         type: "post",
-                        url: "/film",
-                        data: data,
-                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                        url: "api/film",
+                        data: JSON.stringify(data),
+                        dataType: 'json',
+                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 
+                                'Authorization' : 'Bearer '+ localStorage.getItem("access_token")},
                         dataType: "json",
+                        contentType: "application/json",
                         success: function(data) {
                             availableFilms.push({"label": data.name, "value": data.id });
                             
@@ -187,8 +198,12 @@ $(document).ready(function(){
 // fetch all genres
     $.ajax({
         type: "GET",
-        url: "/genre/all",
+        url: "api/genre/all",
         dataType: 'json',
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 
+                'Authorization' : 'Bearer '+ localStorage.getItem("access_token")},
+        dataType: "json",
+        contentType: "application/json",
         success: function(data){
             $.each(data, function(key, value) {
                 availableGenres.push({"label": value.name, "value": value.id });
@@ -200,8 +215,12 @@ $(document).ready(function(){
 // fetch all certificates
     $.ajax({
         type: "GET",
-        url: "/certificate/all",
+        url: "api/certificate/all",
         dataType: 'json',
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 
+                'Authorization' : 'Bearer '+ localStorage.getItem("access_token")},
+        dataType: "json",
+        contentType: "application/json",
         success: function(data){
             $.each(data, function(key, value) {
                 availableCerts.push({"label": value.name, "value": value.id });
@@ -252,8 +271,12 @@ $(document).ready(function(){
         var modal = $(this);
         $.ajax({
             type: "GET",
-            url: "/film/"+ id +"/edit",
+            url: "api/film/"+ id +"/edit",
             dataType: 'json',
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 
+                    'Authorization' : 'Bearer '+ localStorage.getItem("access_token")},
+            dataType: "json",
+            contentType: "application/json",
             success: function (data) {
                 // console.log(data);
                 var default_movie_genre = data.genre_id;
@@ -318,10 +341,13 @@ $(document).ready(function(){
         if(name != ""){
             $.ajax({
                 type: "PUT",
-                url: "/film/"+ id +"",
-                data: data,
-                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                url: "api/film/"+ id +"",
+                data: JSON.stringify(data),
+                dataType: 'json',
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 
+                        'Authorization' : 'Bearer '+ localStorage.getItem("access_token")},
                 dataType: "json",
+                contentType: "application/json",
                 success: function() {
 
                     $.each(availableFilms,function(key,value){
@@ -372,9 +398,12 @@ $(document).ready(function(){
                 if (result)
                     $.ajax({
                         type: "DELETE",
-                        url: "/film/"+ id,
-                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                        url: "api/film/"+ id,
+                        dataType: 'json',
+                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 
+                                'Authorization' : 'Bearer '+ localStorage.getItem("access_token")},
                         dataType: "json",
+                        contentType: "application/json",
                         success: function(data) {
                             $.each(availableFilms,function(key,value){
                                 if(id === value.value){

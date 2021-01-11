@@ -1,5 +1,4 @@
-@extends('layouts.app')
-@section('content')
+<div id = "modal-login-form" title = "Login" hidden>
 <form id="loginForm" action="#" method="post" enctype="multipart/form-data">
     @csrf
   <div class="form-group">
@@ -14,8 +13,5 @@
   <button type="submit" class="btn btn-primary" id="btn-login">Log in</button>
 </form>
 <br>
-<div><a href="/register">Don't have an account? Click here</a></div>
-@endsection
-@section('scripts')
-<script src="{{asset("js/login.js")}}"></script>
-@endsection
+<div><a href="/register">Don't have an account?<br> Click here</a></div>
+</div>

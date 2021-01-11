@@ -27,10 +27,10 @@ class ActorController extends Controller
 
     public function browseActors(Request $request)
     {
-        if ($request->ajax()){
+        // if ($request->ajax()){
             $actor = Actor::orderBy('updated_at','desc')->get();
             return response()->json($actor);
-         }
+        //  }
     }
 
     /**
