@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\API;
 
-use Illuminate\Support\Facades\Validator;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\User;
-use App\Mail\LoginEMail;
-use Illuminate\Support\Facades\Mail;
-
-use App\Events\UserLogin;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Mail;
+use App\User;
+use App\Events\UserLogin;
 use App\Models\LoginLog;
+// use App\Mail\LoginEMail;
+
 
 class AuthController extends Controller
 {
@@ -51,7 +51,7 @@ class AuthController extends Controller
                 return response()->json(['message' => 'Invalid Credentials']);
             } else {
                 // event-listener for mail and logs
-                // Event::dispatch(new UserLogin($request->email));
+                Event::dispatch(new UserLogin($request->email));
 
                 // mail is now using events-listeners
                 // Mail::to($request->email)->send(new LoginEmail);

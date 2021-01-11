@@ -1,3 +1,13 @@
+{{--   
+Author : HAROLD AARON 
+Developer and maintainer : HAROLD AARON
+
+Note: 
+    This index blade file from among all the files inside /views directory was 
+used as a base pattern for all BREADS used in the web-app, basically it uses
+the same logic for all.
+
+--}}
 @extends('layouts.app')
 @section('content')
 <div id="tabs-movies">

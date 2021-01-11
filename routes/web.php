@@ -16,9 +16,18 @@ use Illuminate\Support\Facades\Mail;
 */
 // Route::middleware(['check.login'])->group(function () {
 // });
-Route::get('/', function () {
-    return view('layouts.app');
+// Route::get('/film', function () {
+//     return view('layouts.app');
+
+// });
+Route::get('/',function(){
+    return view('film.index');
 });
+
+Route::get('/film',function(){
+    return view('film.index');
+});
+
 Route::get('/login',function(){
     return view('auth.login');
 });
@@ -35,9 +44,6 @@ Route::get('/actor',function(){
     return view('actor.index');
 });
 
-Route::get('/film',function(){
-    return view('film.index');
-});
 
 Route::get('/genre',function(){
     return view('genre.index');
