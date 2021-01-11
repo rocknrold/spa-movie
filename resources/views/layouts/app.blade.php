@@ -8,24 +8,23 @@
 </head>
 <body>
 <div class="container">
+    <div class="alert alert-success" role="alert" id="div-alert" hidden>
+        <h4 class="alert-heading">Status</h4>
+        <p id="status-alert"></p>
+        <p class="mb-0"></p>
+    </div>
+    <div class="navbar navbar-expand-lg">
     <ul id= "menu-1">
-        <li data-value="movies"><a href = "/">Movies</a></li>
-        <li data-value="actor"><a href = "#">Actor</a></li>
-        <li data-value="producer"><a href = "#">Producer</a></li>
-        <li data-value="genre"><a href = "#tabs-genres">Genre</a></li>
-        <li data-value="role"><a href = "#tabs-role">Roles</a></li>
-        <li data-value="certificate"><a href = "#tabs-certificate">Certificate</a></li>
-        <li data-value="logout"><a href = "/logout">logout</a></li>
-        <li data-value="register"><a href = "/register">register</a></li>
-        <li data-value="login"><a href = "/login">login</a></li>
+        <li data-value="movies"><a href = "/film">Movies</a></li>
+        <li data-value="actor"><a href = "/actor">Actor</a></li>
+        <li data-value="producer"><a href = "/producer">Producer</a></li>
+        <li data-value="genre"><a href = "/genre">Genre</a></li>
+        <li data-value="role"><a href = "/role">Roles</a></li>
+        <li data-value="logout"><a href = "/logout" id="logout" style="display:none;">logout</a></li>
+        <li data-value="register"><a href = "/register" id="register"style="display:none;" >register</a></li>
     </ul>
+    </div>
     <main class="py-4">@yield('content')</main>
-
-
-
-    @if (Auth::guard('api')->check())
-        <h1>hi hahaha</h1>
-    @endif
 </div>
 @yield('scripts')
 </body>

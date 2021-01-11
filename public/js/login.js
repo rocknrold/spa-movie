@@ -1,5 +1,33 @@
 $(document).ready(function(){
 
+
+        function isAuthenticated(){
+            try {   
+                if(localStorage.getItem("access_token") === null) {
+                   $('#register').attr('style', 'display:inline');
+                }else{
+                    $('#logout').attr('style', 'display:inline');
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        function alertStatus(){
+            try {   
+                if(localStorage.getItem("status") !== null) {
+                    $('#div-alert').attr('style', 'display:inline');
+                    $('#status-alert').text(localStorage.getItem("status"));
+                    localStorage.clear();
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        isAuthenticated();
+        alertStatus();
+
         // all form validation for login
     
         $("form").each(function() {
@@ -53,7 +81,7 @@ $(document).ready(function(){
                             localStorage.setItem("username", username);
                             localStorage.setItem("access_token",access_token);
 
-                            window.location.href = "/";
+                            location.reload();
                         }
                     },
                     error: function(error) {

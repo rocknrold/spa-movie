@@ -1,5 +1,6 @@
 $(document).ready(function(){
 
+
 // all form validation for actor
 
      $("form").each(function() {
@@ -28,8 +29,12 @@ $(document).ready(function(){
 
     $.ajax({
         type: "GET",
-        url: "/actor/all",
+        url: "/api/actor/all",
         dataType: 'json',
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 
+                'Authorization' : 'Bearer '+ localStorage.getItem("access_token")},
+        dataType: "json",
+        contentType: "application/json",
         success: function (data) {
             $.each(data, function(key, value) {
                 availableActors.push({"label": value.name, "value": value.id });
@@ -47,8 +52,8 @@ $(document).ready(function(){
             });
         },
         error: function(){
-          console.log('AJAX load did not work');
-          alert("error");
+            $("#modal-login-form").dialog().dialog("open");
+            console.log('AJAX load did not work');
         }
     });
     console.log(availableActors);
@@ -74,8 +79,12 @@ $('#actorSearchForm').submit(function(e){
     if ($('input[id="actor-search"]').val() != "") {
         $.ajax({
             type : "GET",
-            url : "/actor/show/" + id,
+            url : "api/actor/show/" + id,
             dataType: "json",
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 
+                    'Authorization' : 'Bearer '+ localStorage.getItem("access_token")},
+            dataType: "json",
+            contentType: "application/json",
             success : function(data){
                 $( "#showActorDialog" ).dialog({
                     title : "Showing details for "+ data.name,
@@ -111,13 +120,17 @@ $('#actorSearchForm').submit(function(e){
             e.preventDefault();
             //ok button event will be made here
             if($('input[id="name"]').val() != "" && $('input[id="note"]').val() != ""){
-                var data = $("#actorForm").serialize();
+                var data = {name:$('input[id="name"]').val() ,note:$('input[id="note"]').val() };
                 $.ajax({
                     type: "post",
-                    url: "/actor",
-                    data: data,
+                    url: "/api/actor",
+                    data: JSON.stringify(data),
                     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                     dataType: "json",
+                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 
+                            'Authorization' : 'Bearer '+ localStorage.getItem("access_token")},
+                    dataType: "json",
+                    contentType: "application/json",
                     success: function(data) {
                         availableActors.push({"label": data.name, "value": data.id });
                         
@@ -152,8 +165,11 @@ $('#modal-actor-edit').on('show.bs.modal', function (event) {
     var modal = $(this);
     $.ajax({
         type: "GET",
-        url: "/actor/"+ id +"/edit",
+        url: "api/actor/"+ id +"/edit",
         dataType: 'json',
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 
+                'Authorization' : 'Bearer '+ localStorage.getItem("access_token")},
+        contentType: "application/json",
         success: function (data) {
             modal.find('#actor_id').val(data[0].id);
             modal.find('#edit_name').val(data[0].name);
@@ -179,12 +195,15 @@ $('#update-actor-btn').click(function(e){
     if(name != "" && note != "" && name.length >= 5){
         $.ajax({
             type: "PUT",
-            url: "/actor/"+ id +"",
-            data: data,
+            url: "api/actor/"+ id +"",
+            data: JSON.stringify({name:name,note:note}),
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
             dataType: "json",
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 
+                    'Authorization' : 'Bearer '+ localStorage.getItem("access_token")},
+            dataType: "json",
+            contentType: "application/json",
             success: function(data) {
-                console.log(data);
                 $('#modal-actor-edit').each(function(){
                     $(this).modal('hide'); });
 
@@ -223,11 +242,14 @@ $("#actor-table").on('click',".deletebtn",function(e) {
             if (result)
                 $.ajax({
                     type: "DELETE",
-                    url: "/actor/"+ id,
-                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                    url: "api/actor/"+ id,
+                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 
+                            'Authorization' : 'Bearer '+ localStorage.getItem("access_token")},
                     dataType: "json",
+                    contentType: "application/json",
                     success: function(data) {
                         $('#actor_tr_'+ id).remove();
+                        console.log(data);
                     },
                     error: function(error) {
                         console.log('error');

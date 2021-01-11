@@ -1,6 +1,9 @@
 @extends('layouts.app')
 @section('content')
+<h2>Create your new account now!!!</h2>
 <form id="registerForm" action="#" enctype="multipart/form-data">
+<fieldset>
+  <legend><small><i>Register Form</i></small></legend>
     @csrf
     {{ method_field('post')}}
   <div class="form-group">
@@ -21,9 +24,10 @@
     <input type="password" class="form-control" id="register-confirm" placeholder="Password">
   </div>
   <button type="submit" class="btn btn-primary" id="btn-register">Submit</button>
+</fieldset>
 </form>
 <br>
-<div><a href="/login">Back to login </a></div>
+{{-- <div><a href="/login">Back to login </a></div> --}}
 @endsection
 @section('scripts')
 <script src="{{asset("js/register.js")}}"></script>

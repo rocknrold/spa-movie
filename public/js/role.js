@@ -23,8 +23,12 @@ $(document).ready(function(){
     
         $.ajax({
             type: "GET",
-            url: "/role/all",
+            url: "api/role/all",
             dataType: 'json',
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 
+                    'Authorization' : 'Bearer '+ localStorage.getItem("access_token")},
+            dataType: "json",
+            contentType: "application/json",
             success: function (data) {
                 $.each(data, function(key, value) {
                     availableroles.push({"label": value.name, "value": value.id });
@@ -40,8 +44,8 @@ $(document).ready(function(){
                 });
             },
             error: function(){
-              console.log('AJAX load did not work');
-              alert("error");
+                $('#modal-login-form').dialog().dialog('open');
+                console.log('AJAX load did not work');
             }
         });
         console.log(availableroles);
@@ -67,8 +71,12 @@ $(document).ready(function(){
         if ($('input[id="role-search"]').val() != "") {
             $.ajax({
                 type : "GET",
-                url : "/role/show/" + id,
+                url : "api/role/show/" + id,
+                dataType: 'json',
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 
+                        'Authorization' : 'Bearer '+ localStorage.getItem("access_token")},
                 dataType: "json",
+                contentType: "application/json",
                 success : function(data){
                     $( "#showroleDialog" ).dialog({
                         title : "Showing details for "+ data.name,
@@ -105,13 +113,16 @@ $(document).ready(function(){
                 //ok button event will be made here
                 var name = $('input[id="name"]').val();
                 if( name != "" && name.length >= 5 ){
-                    var data = $("#roleForm").serialize();
+                    // var data = $("#roleForm").serialize();
                     $.ajax({
                         type: "post",
-                        url: "/role",
-                        data: data,
-                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                        url: "api/role",
+                        data: JSON.stringify({name:name}),
+                        dataType: 'json',
+                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 
+                                'Authorization' : 'Bearer '+ localStorage.getItem("access_token")},
                         dataType: "json",
+                        contentType: "application/json",
                         success: function(data) {
                             availableroles.push({"label": data.name, "value": data.id });
                             
@@ -144,8 +155,12 @@ $(document).ready(function(){
         var modal = $(this);
         $.ajax({
             type: "GET",
-            url: "/role/"+ id +"/edit",
+            url: "api/role/"+ id +"/edit",
             dataType: 'json',
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 
+                    'Authorization' : 'Bearer '+ localStorage.getItem("access_token")},
+            dataType: "json",
+            contentType: "application/json",
             success: function (data) {
                 modal.find('#role_id').val(data[0].id);
                 modal.find('#edit_name').val(data[0].name);
@@ -165,14 +180,17 @@ $(document).ready(function(){
         e.preventDefault();
         var id = $('input[id="role_id"]').val();
         var name = $('input[name="name"]').val();
-        var data = $("#updateroleForm").serialize();
+        // var data = $("#updateroleForm").serialize();
         if(name != "" && name.length >= 5){
             $.ajax({
                 type: "PUT",
-                url: "/role/"+ id +"",
-                data: data,
-                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                url: "api/role/"+ id +"",
+                data: JSON.stringify({name:name}),
+                dataType: 'json',
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 
+                        'Authorization' : 'Bearer '+ localStorage.getItem("access_token")},
                 dataType: "json",
+                contentType: "application/json",
                 success: function(data) {
                     console.log(data);
                     $('#modal-role-edit').each(function(){
@@ -213,9 +231,12 @@ $(document).ready(function(){
                 if (result)
                     $.ajax({
                         type: "DELETE",
-                        url: "/role/"+ id,
-                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                        url: "api/role/"+ id,
+                        dataType: 'json',
+                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 
+                                'Authorization' : 'Bearer '+ localStorage.getItem("access_token")},
                         dataType: "json",
+                        contentType: "application/json",
                         success: function(data) {
                             $('#role_tr_'+ id).remove();
                         },

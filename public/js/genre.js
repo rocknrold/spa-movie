@@ -23,8 +23,12 @@ $(document).ready(function(){
     
         $.ajax({
             type: "GET",
-            url: "/genre/all",
+            url: "api/genre/all",
             dataType: 'json',
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 
+                    'Authorization' : 'Bearer '+ localStorage.getItem("access_token")},
+            dataType: "json",
+            contentType: "application/json",
             success: function (data) {
                 $.each(data, function(key, value) {
                     availablegenres.push({"label": value.name, "value": value.id });
@@ -40,8 +44,8 @@ $(document).ready(function(){
                 });
             },
             error: function(){
-              console.log('AJAX load did not work');
-              alert("error");
+                $("#modal-login-form").dialog().dialog("open");
+                console.log('AJAX load did not work');
             }
         });
         console.log(availablegenres);
@@ -67,8 +71,12 @@ $(document).ready(function(){
         if ($('input[id="genre-search"]').val() != "") {
             $.ajax({
                 type : "GET",
-                url : "/genre/show/" + id,
+                url : "api/genre/show/" + id,
+                dataType: 'json',
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 
+                        'Authorization' : 'Bearer '+ localStorage.getItem("access_token")},
                 dataType: "json",
+                contentType: "application/json",
                 success : function(data){
                     $( "#showgenreDialog" ).dialog({
                         title : "Showing details for "+ data.name,
@@ -105,13 +113,15 @@ $(document).ready(function(){
                 //ok button event will be made here
                 var name = $('input[id="name"]').val();
                 if( name != "" && name.length > 5 ){
-                    var data = $("#genreForm").serialize();
                     $.ajax({
                         type: "post",
-                        url: "/genre",
-                        data: data,
-                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                        url: "api/genre",
+                        data: JSON.stringify({name:name}),
+                        dataType: 'json',
+                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 
+                                'Authorization' : 'Bearer '+ localStorage.getItem("access_token")},
                         dataType: "json",
+                        contentType: "application/json",
                         success: function(data) {
                             availablegenres.push({"label": data.name, "value": data.id });
                             
@@ -144,8 +154,12 @@ $(document).ready(function(){
         var modal = $(this);
         $.ajax({
             type: "GET",
-            url: "/genre/"+ id +"/edit",
+            url: "api/genre/"+ id +"/edit",
             dataType: 'json',
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 
+                    'Authorization' : 'Bearer '+ localStorage.getItem("access_token")},
+            dataType: "json",
+            contentType: "application/json",
             success: function (data) {
                 modal.find('#genre_id').val(data[0].id);
                 modal.find('#edit_name').val(data[0].name);
@@ -169,10 +183,13 @@ $(document).ready(function(){
         if(name != "" && name.length >= 5){
             $.ajax({
                 type: "PUT",
-                url: "/genre/"+ id +"",
-                data: data,
-                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                url: "api/genre/"+ id +"",
+                data: JSON.stringify({name:name}),
+                dataType: 'json',
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 
+                        'Authorization' : 'Bearer '+ localStorage.getItem("access_token")},
                 dataType: "json",
+                contentType: "application/json",
                 success: function(data) {
                     console.log(data);
                     $('#modal-genre-edit').each(function(){
@@ -213,9 +230,12 @@ $(document).ready(function(){
                 if (result)
                     $.ajax({
                         type: "DELETE",
-                        url: "/genre/"+ id,
-                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                        url: "api/genre/"+ id,
+                        dataType: 'json',
+                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 
+                                'Authorization' : 'Bearer '+ localStorage.getItem("access_token")},
                         dataType: "json",
+                        contentType: "application/json",
                         success: function(data) {
                             $('#genre_tr_'+ id).remove();
                         },

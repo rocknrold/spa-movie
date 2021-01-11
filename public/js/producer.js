@@ -33,8 +33,12 @@ $(document).ready(function(){
     
         $.ajax({
             type: "GET",
-            url: "/producer/all",
+            url: "api/producer/all",
             dataType: 'json',
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 
+                    'Authorization' : 'Bearer '+ localStorage.getItem("access_token")},
+            dataType: "json",
+            contentType: "application/json",
             success: function (data) {
                 $.each(data, function(key, value) {
                     availableproducers.push({"label": value.name, "value": value.id });
@@ -52,8 +56,8 @@ $(document).ready(function(){
                 });
             },
             error: function(){
-              console.log('AJAX load did not work');
-              alert("error");
+                $('#modal-login-form').dialog().dialog('open');
+                console.log('AJAX load did not work');
             }
         });
         console.log(availableproducers);
@@ -79,8 +83,12 @@ $(document).ready(function(){
         if ($('input[id="producer-search"]').val() != "") {
             $.ajax({
                 type : "GET",
-                url : "/producer/show/" + id,
+                url : "api/producer/show/" + id,
+                dataType: 'json',
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 
+                        'Authorization' : 'Bearer '+ localStorage.getItem("access_token")},
                 dataType: "json",
+                contentType: "application/json",
                 success : function(data){
                     $( "#showproducerDialog" ).dialog({
                         title : "Showing details for "+ data.name,
@@ -115,14 +123,20 @@ $(document).ready(function(){
             OK: function(e){
                 e.preventDefault();
                 //ok button event will be made here
-                if($('input[id="name"]').val() != "" && $('input[id="note"]').val() != ""){
-                    var data = $("#producerForm").serialize();
+                var name = $('input[id="name"]').val();
+                var email = $('input[id="email"]').val();
+                var website = $('input[id="website"]').val();
+                if(name != "" && email != ""){
+                    // var data = $("#producerForm").serialize();
                     $.ajax({
                         type: "post",
-                        url: "/producer",
-                        data: data,
-                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                        url: "api/producer",
+                        data: JSON.stringify({name:name,email:email,website:website}),
+                        dataType: 'json',
+                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 
+                                'Authorization' : 'Bearer '+ localStorage.getItem("access_token")},
                         dataType: "json",
+                        contentType: "application/json",
                         success: function(data) {
                             availableproducers.push({"label": data.name, "value": data.id });
                             
@@ -157,8 +171,12 @@ $(document).ready(function(){
         var modal = $(this);
         $.ajax({
             type: "GET",
-            url: "/producer/"+ id +"/edit",
+            url: "api/producer/"+ id +"/edit",
             dataType: 'json',
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 
+                    'Authorization' : 'Bearer '+ localStorage.getItem("access_token")},
+            dataType: "json",
+            contentType: "application/json",
             success: function (data) {
                 modal.find('#producer_id').val(data[0].id);
                 modal.find('#edit_name').val(data[0].name);
@@ -186,10 +204,13 @@ $(document).ready(function(){
         if(name != "" && name.length >=5 && email != "" && website != "" ){
             $.ajax({
                 type: "PUT",
-                url: "/producer/"+ id +"",
-                data: data,
-                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                url: "api/producer/"+ id +"",
+                data: JSON.stringify({name:name,email:email,website:website}),
+                dataType: 'json',
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 
+                        'Authorization' : 'Bearer '+ localStorage.getItem("access_token")},
                 dataType: "json",
+                contentType: "application/json",
                 success: function(data) {
                     $('#modal-producer-edit').each(function(){
                         $(this).modal('hide'); });
@@ -229,9 +250,12 @@ $(document).ready(function(){
                 if (result)
                     $.ajax({
                         type: "DELETE",
-                        url: "/producer/"+ id,
-                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                        url: "api/producer/"+ id,
+                        dataType: 'json',
+                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 
+                                'Authorization' : 'Bearer '+ localStorage.getItem("access_token")},
                         dataType: "json",
+                        contentType: "application/json",
                         success: function(data) {
                             $('#producer_tr_'+ id).remove();
                         },

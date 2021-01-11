@@ -14,10 +14,10 @@ use Illuminate\Support\Facades\Mail;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::middleware(['check.login'])->group(function () {
-    Route::get('/', function () {
-        return view('layouts.app');
-    });
+// Route::middleware(['check.login'])->group(function () {
+// });
+Route::get('/', function () {
+    return view('layouts.app');
 });
 Route::get('/login',function(){
     return view('auth.login');
@@ -29,4 +29,23 @@ Route::get('/register',function(){
 
 Route::get('/logout',function(){
     return view('auth.logout');
+});
+
+Route::get('/actor',function(){
+    return view('actor.index');
+});
+
+Route::get('/film',function(){
+    return view('film.index');
+});
+
+Route::get('/genre',function(){
+    return view('genre.index');
+});
+Route::get('/producer',function(){
+    return view('producer.index');
+});
+
+Route::get('/role',function(){
+    return view('role.index');
 });
