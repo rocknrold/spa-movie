@@ -1,6 +1,16 @@
+/* 
+Author : HAROLD AARON 
+Developer and maintainer : HAROLD AARON
+
+Note: 
+    This js file from among all the files inside /public/js directory was 
+used as a base pattern for all BREADS used in the web-app, basically it uses
+the same logic for all.
+
+*/
 $(document).ready(function(){
 
-    // all form validation for film
+    // all form validation for film this includes [create,edit/update]
     
          $("form").each(function() {
             $(this).validate({
@@ -44,19 +54,36 @@ $(document).ready(function(){
             });
          });
        
-    // load index for all films 
-        var availableFilms = [];
+    /* 
+        load index for all films, this ajax creates an asynchronous request 
+        on the server and it uses an API so the request must include some 
+        headers nescessary to be an authenticated request on the server
+        handling API requests. 
+
+    */
+        var availableFilms = []; //this array is needed for search feature 
     
         $.ajax({
             type: "GET",
-            url: "api/film/all",
+            /* 
+                the url slug here is the route we want to make a request for
+                so this is the route of the resource defined in the routes/api  
+            */
+            url: "api/film/all", 
             dataType: 'json',
+            /*
+                headers are required based from how to use the API,
+                the laravel passport API auth verifies request by using
+                access token that is given on an authenticated user
+            */
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 
                     'Authorization' : 'Bearer '+ localStorage.getItem("access_token")},
+                    // the app uses localStorage to store and retrieve this tokens
             dataType: "json",
             contentType: "application/json",
             success: function (data) {
                 $.each(data, function(key, value) {
+                // this line is necessary for search function it pushes data to be search
                     availableFilms.push({"label": value.name, "value": value.id });
                     id = value.id;
                     $('#film-table').append('<div class="col-sm-6" id="film_div_'+ id +'">'+
@@ -70,15 +97,20 @@ $(document).ready(function(){
                 });
             },
             error: function(){
-              console.log('AJAX load did not work');
-              $("#modal-login-form").dialog().dialog("open");
+            /*
+                once ajax fails to load it means that the request has either caught a problem
+                or has a 401 unauthenticated request on the resource
+                the function calls for the jquery UI dialog for the login form 
+            */   
+                console.log('AJAX load did not work');
+                $("#modal-login-form").dialog().dialog("open"); 
             }
         });
     
-    // Read film data via search 
+    // Read film data via search
     
-    $( "#film-search" ).autocomplete({
-        source: availableFilms,
+    $( "#film-search" ).autocomplete({ //any text on the search bar will make an autocomplete
+        source: availableFilms, //the above variable is now used as an array of films for search
         autoFocus:true,
         select: function (event, ui) {
             // Set selection
@@ -89,11 +121,11 @@ $(document).ready(function(){
         }
     });
     
-    $('#filmSearchForm').submit(function(e){
+    $('#filmSearchForm').submit(function(e){ //executes once search button is clicked
         e.preventDefault();
-        var id = $('input[id="selected-film"]').val();
+        var id = $('input[id="selected-film"]').val(); //get slected film's id 
     
-        if ($('input[id="film-search"]').val() != "") {
+        if ($('input[id="film-search"]').val() != "") { //validation if search is empty
             $.ajax({
                 type : "GET",
                 url : "api/film/show/" + id,
@@ -103,11 +135,12 @@ $(document).ready(function(){
                 dataType: "json",
                 contentType: "application/json",
                 success : function(data){
+                    // data.duration will calculated as minutes to hours
                     var duration_in_hrs = Math.floor(data.duration/60);
                     var duration_rm_mins = Math.round(data.duration%60);
                     var readable_duration = duration_in_hrs + " hr(s) " + duration_rm_mins +" min(s)"; 
 
-                    $( "#showFilmDialog" ).dialog({
+                    $( "#showFilmDialog" ).dialog({ //show data on the jquery ui dialog
                         title : "Showing details for "+ data.name,
                         resizable : true,
                         open : function(){
@@ -130,27 +163,27 @@ $(document).ready(function(){
         }
     });
     
-    var availableGenres = [];
-    var availableCerts = [];
-    
     // create -> save film data to database
-      $( "#modal-film-form" ).dialog({
+      $( "#modal-film-form" ).dialog({ // modal form for create, a customized jquery dialog 
         autoOpen: false, 
         modal: true,
         buttons: {
             OK: function(e){
+                //ok button event will be made here once submit
                 e.preventDefault();
-                //ok button event will be made here
-                if($('input[id="name"]').val() != "" && $('input[id="info"]').val() != ""){
-
-                    var name = $('input[id="name"]').val();
-                    var story = $('textarea#story').val();
-                    var info = $('input[id="info"]').val();
-                    var released_at = $('input[id="released_at"]').val();
-                    var duration = $('input[id="duration"]').val();
-                    var genre_id = $('input[id="selected_genre_id"]').val();
-                    var cert_id = $('input[id="selected_cert_id"]').val();
-
+                // accessing input data from create form 
+                var name = $('input[id="name"]').val();
+                var story = $('textarea#story').val();
+                var info = $('input[id="info"]').val();
+                var released_at = $('input[id="released_at"]').val();
+                var duration = $('input[id="duration"]').val();
+                var genre_id = $('input[id="selected_genre_id"]').val();
+                var cert_id = $('input[id="selected_cert_id"]').val();
+                //some input validation 
+                if(name != "" && story != "" && info != "" && name.length >= 5){
+                    // the accessed data is now being formatted to be a json
+                    // because the api request accepts application/json as 
+                    // content type and forms here uses multipart-form as encoding type
                     var data = {
                         name:name,
                         story:story,
@@ -164,7 +197,7 @@ $(document).ready(function(){
                     $.ajax({
                         type: "post",
                         url: "api/film",
-                        data: JSON.stringify(data),
+                        data: JSON.stringify(data), // for validation that we uses json, stringify does it also
                         dataType: 'json',
                         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 
                                 'Authorization' : 'Bearer '+ localStorage.getItem("access_token")},
@@ -192,8 +225,11 @@ $(document).ready(function(){
             }
         },
         },
-        });
-        console.log(availableFilms);
+    });
+
+// these arrays will be used for form autocomplete 
+var availableGenres = [];
+var availableCerts = [];
 
 // fetch all genres
     $.ajax({
@@ -206,6 +242,7 @@ $(document).ready(function(){
         contentType: "application/json",
         success: function(data){
             $.each(data, function(key, value) {
+                //push available genre to be used on forms 
                 availableGenres.push({"label": value.name, "value": value.id });
             });
         },
@@ -223,15 +260,16 @@ $(document).ready(function(){
         contentType: "application/json",
         success: function(data){
             $.each(data, function(key, value) {
+                //push available certificate to be used on forms
                 availableCerts.push({"label": value.name, "value": value.id });
             });
         },
 
-    }); //ajax genre end
+    }); //ajax cert end
 
 
     //genre and certificate for movie
-    $( "#genre_id, #edit_genre_id" ).autocomplete({
+    $( "#genre_id, #edit_genre_id" ).autocomplete({ 
         source: availableGenres,
         autoFocus:true,
         select: function (event, ui) {
@@ -266,7 +304,7 @@ $(document).ready(function(){
     
     $('#modal-film-edit').on('show.bs.modal', function (event) {
         var id = $(event.relatedTarget).data('id') // Extract info from data-* attributes
-        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+        // initiate an AJAX request here (and then do the updating in a callback).
         // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
         var modal = $(this);
         $.ajax({
@@ -278,7 +316,6 @@ $(document).ready(function(){
             dataType: "json",
             contentType: "application/json",
             success: function (data) {
-                // console.log(data);
                 var default_movie_genre = data.genre_id;
                 var default_movie_cert = data.certificate_id;
                 var genrevalue,certvalue;
@@ -295,7 +332,8 @@ $(document).ready(function(){
                         certid = value.value;
                     }
                 });
-
+                
+                //puts data on the form fields 
                 modal.find('#film_id').val(data.id);
                 modal.find('#edit_name').val(data.name);
                 modal.find('#edit_story').val(data.story);
@@ -338,7 +376,7 @@ $(document).ready(function(){
             genre_id:genre_id,
             certificate_id:cert_id
         };
-        if(name != ""){
+        if(name != "" && name.length >= 5 && story != "" && info !=""){
             $.ajax({
                 type: "PUT",
                 url: "api/film/"+ id +"",
@@ -406,13 +444,14 @@ $(document).ready(function(){
                         contentType: "application/json",
                         success: function(data) {
                             $.each(availableFilms,function(key,value){
-                                if(id === value.value){
-                                    availableFilms.splice(key, 1);
+                                if(id === value.value){ //search the id of film deleted and remove it
+                                    // on the availableFilms and once true
+                                    availableFilms.splice(key, 1); //return the new available films
                                     return false;
                                 }
                             });
 
-                            $('#film_div_'+ id).remove();
+                            $('#film_div_'+ id).remove(); //remove div on the film rows list
                         },
                         error: function(error) {
                             console.log('error');

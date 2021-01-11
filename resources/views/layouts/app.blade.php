@@ -1,3 +1,8 @@
+{{-- 
+    This is the main layout used in the whole web-app 
+    it is extended along to the different files inside
+    /views directory, it may be considered as the master 
+ --}}
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -8,10 +13,8 @@
 </head>
 <body>
 <div class="container">
-    <div class="alert alert-success" role="alert" id="div-alert" hidden>
-        <h4 class="alert-heading">Status</h4>
+    <div class="alert" role="alert" id="div-alert" hidden>
         <p id="status-alert"></p>
-        <p class="mb-0"></p>
     </div>
     <div class="navbar navbar-expand-lg">
     <ul id= "menu-1">
@@ -26,6 +29,7 @@
     </div>
     <main class="py-4">@yield('content')</main>
 </div>
+@include('layouts.footer')
 @yield('scripts')
 </body>
 </html>

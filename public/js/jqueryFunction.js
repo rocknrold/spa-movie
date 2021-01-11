@@ -1,5 +1,9 @@
 $(function() {
-    
+    /**
+     * this just includes all the jquery neccessary for the 
+     * widgets used in the UI of the web-app 
+     * this includes eg: dialogs and menu/navbar
+     */
     $( "#menu-1" ).menu();
 
     $( "#modal-opener" ).click(function() {

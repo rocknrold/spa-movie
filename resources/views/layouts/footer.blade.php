@@ -1,7 +1,6 @@
-<footer class="text-center bg-primary p-3 text-light mb-0">
-    &copy; 2020 <a href="https://github.com/alladinmelico/laravel_movie" class="text-light">Laravel Movie</a>
+<footer class="text-center">
+    &nbsp;
+    &copy; 2020 <a href="https://github.com/rocknrold/spa-movie">MOVIE-WEB-APP</a>
     <br>
-    <a href="https://github.com/rocknrold" class="text-light">Aaron, Harold C.</a>
-    <br>
-    <a href="https://github.com/alladinmelico" class="text-light">Melico, Alladin M.</a>
+    <a href="https://github.com/rocknrold">Aaron, Harold C.</a>
 </footer>

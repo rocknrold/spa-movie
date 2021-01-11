@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
     // all form validation for register
-
+    // this just validates the form
     $("form").each(function() {
         $(this).validate({
             rules: {
@@ -41,20 +41,32 @@ $(document).ready(function(){
         var email = $('input[id="register-email"]').val();
         var password = $('input[id="register-password"]').val();
         var confirm = $('input[id="register-confirm"]').val();
+        /**
+         * create a data variable with json format in javascript 
+         */
         var data = {name:name,email:email,password:password,password_confirmation:confirm};
-
+        
+        // some small validation again to make sure data is valid and correct
         if(email != "" && password != "" && name != "" && confirm != ""){
             $.ajax({
                 type: "post",
                 url: "/api/register",
+                /**
+                 * the route api/register is part of the laravel passport
+                 * so a json data is needed and Accept type as an application/json 
+                 */
                 data: JSON.stringify(data),
                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                 dataType: "json",
                 contentType: "application/json",
                 success: function(data) {
+                    // data is validated from the API also 
                     if(data["message"]){
+                        // it returns a message this could either be validation also
+                        // because some data could be only verified directly on the database 
                         alert(data["message"]);
                     }else if(data["success"]){
+                        // if data passed the validation then redirect
                         window.location.href = "/film";
                     }
                 },

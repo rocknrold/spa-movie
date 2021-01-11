@@ -1,3 +1,9 @@
+{{-- 
+    this login index blade file is called inside views
+    it is included for every views files eg: genre/index.blade.php,
+    this is just shown every time the user is not authenticated and is
+    requesting a route which is made only for authenticated users
+ --}}
 <div id = "modal-login-form" title = "Login" hidden>
 <form id="loginForm" action="#" method="post" enctype="multipart/form-data">
     @csrf
