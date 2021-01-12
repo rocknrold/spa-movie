@@ -343,7 +343,6 @@ var availableCerts = [];
                 dataType: "json",
                 contentType: "application/json",
                 success: function() {
-
                     $.each(availableFilms,function(key,value){
                         if(id == value.value){
                             availableFilms.splice(key, 1);
