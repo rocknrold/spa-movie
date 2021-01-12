@@ -9,50 +9,6 @@ the same logic for all.
 
 */
 $(document).ready(function(){
-
-    // all form validation for film this includes [create,edit/update]
-    
-         $("form").each(function() {
-            $(this).validate({
-                rules: {
-                name: { required:true, minlength:5 },
-                story: { required:true, maxlength:300 },
-                info: {required:true},
-                duration: {required:true},
-                released_at: {required:true},
-                genre_id: {required:true},
-                cert_id: {required:true}
-                },
-                messages: {
-                name: {
-                    required: "Name could not be empty",
-                    minlength: "Name should be atleast 5 characters",
-                },
-                story: {
-                    required: "Could not be empty",
-                    maxlength: "Noted have reached maximum characters allowed",
-                },
-                info: {
-                    required: "Could not be empty",
-                },
-                duration: {
-                    required: "Could not be empty",
-                },
-                released_at: {
-                    required: "Could not be empty",
-                },
-                genre_id: {
-                    required: "Could not be empty",
-                },
-                cert_id: {
-                    required: "Could not be empty",
-                },
-
-                },
-                errorClass: "error fail-alert",
-                validClass: "valid success-alert",
-            });
-         });
        
     /* 
         load index for all films, this ajax creates an asynchronous request 
@@ -172,15 +128,15 @@ $(document).ready(function(){
                 //ok button event will be made here once submit
                 e.preventDefault();
                 // accessing input data from create form 
-                var name = $('input[id="name"]').val();
+                var name = $('input[id="film_name"]').val();
                 var story = $('textarea#story').val();
                 var info = $('input[id="info"]').val();
                 var released_at = $('input[id="released_at"]').val();
                 var duration = $('input[id="duration"]').val();
-                var genre_id = $('input[id="selected_genre_id"]').val();
-                var cert_id = $('input[id="selected_cert_id"]').val();
+                var genre_id = $('input[id="selected_genre_film_id"]').val();
+                var cert_id = $('input[id="selected_cert_film_id"]').val();
                 //some input validation 
-                if(name != "" && story != "" && info != "" && name.length >= 5){
+                if(name != "" && story != "" && info != "" && released_at != null){
                     // the accessed data is now being formatted to be a json
                     // because the api request accepts application/json as 
                     // content type and forms here uses multipart-form as encoding type
@@ -269,29 +225,29 @@ var availableCerts = [];
 
 
     //genre and certificate for movie
-    $( "#genre_id, #edit_genre_id" ).autocomplete({ 
+    $( "#genre_film_id, #edit_genre_film_id" ).autocomplete({ 
         source: availableGenres,
         autoFocus:true,
         select: function (event, ui) {
             // Set selection
-            $('#genre_id').val(ui.item.label); // display the selected text
-            $('#selected_genre_id').val(ui.item.value); // save selected id to input
-            $('#edit_genre_id').val(ui.item.label); // display the selected text
-            $('#edit_selected_genre_id').val(ui.item.value); // save selected id to input
+            $('#genre_film_id').val(ui.item.label); // display the selected text
+            $('#selected_genre_film_id').val(ui.item.value); // save selected id to input
+            $('#edit_genre_film_id').val(ui.item.label); // display the selected text
+            $('#edit_selected_genre_film_id').val(ui.item.value); // save selected id to input
             
             return false;
         }
     }); 
 
-    $( "#cert_id, #edit_cert_id" ).autocomplete({
+    $( "#cert_film_id, #edit_cert_film_id" ).autocomplete({
         source: availableCerts,
         autoFocus:true,
         select: function (event, ui) {
             // Set selection
-            $('#cert_id').val(ui.item.label); // display the selected text
-            $('#selected_cert_id').val(ui.item.value); // save selected id to input
-            $('#edit_cert_id').val(ui.item.label); // display the selected text
-            $('#edit_selected_cert_id').val(ui.item.value); // save selected id to input
+            $('#cert_film_id').val(ui.item.label); // display the selected text
+            $('#selected_cert_film_id').val(ui.item.value); // save selected id to input
+            $('#edit_cert_film_id').val(ui.item.label); // display the selected text
+            $('#edit_selected_cert_film_id').val(ui.item.value); // save selected id to input
             
             return false;
         }
@@ -335,15 +291,15 @@ var availableCerts = [];
                 
                 //puts data on the form fields 
                 modal.find('#film_id').val(data.id);
-                modal.find('#edit_name').val(data.name);
+                modal.find('#edit_film_name').val(data.name);
                 modal.find('#edit_story').val(data.story);
                 modal.find('#edit_duration').val(data.duration);
                 modal.find('#edit_released_at').val(data.released_at);
                 modal.find('#edit_info').val(data.info);
-                modal.find('#edit_genre_id').val(genrevalue);
-                modal.find('#edit_selected_genre_id').val(genreid);
-                modal.find('#edit_cert_id').val(certvalue);
-                modal.find('#edit_selected_cert_id').val(certid);
+                modal.find('#edit_genre_film_id').val(genrevalue);
+                modal.find('#edit_selected_genre_film_id').val(genreid);
+                modal.find('#edit_cert_film_id').val(certvalue);
+                modal.find('#edit_selected_cert_film_id').val(certid);
             },
             error: function(error) {
                 console.log('error');
@@ -359,13 +315,13 @@ var availableCerts = [];
     $('#update-film-btn').click(function(e){
         e.preventDefault();
         var id = $('input[id="film_id"]').val();
-        var name = $('input[id="edit_name"]').val();
+        var name = $('input[id="edit_film_name"]').val();
         var story = $('textarea#edit_story').val();
         var info = $('input[id="edit_info"]').val();
         var released_at = $('input[id="edit_released_at"]').val();
         var duration = $('input[id="edit_duration"]').val();
-        var genre_id = $('#edit_selected_genre_id').val();
-        var cert_id = $('#edit_selected_cert_id').val();
+        var genre_id = $('#edit_selected_genre_film_id').val();
+        var cert_id = $('#edit_selected_cert_film_id').val();
 
         var data = {
             name:name,
@@ -376,7 +332,7 @@ var availableCerts = [];
             genre_id:genre_id,
             certificate_id:cert_id
         };
-        if(name != "" && name.length >= 5 && story != "" && info !=""){
+        if(name != "" && story != "" && info !=""){
             $.ajax({
                 type: "PUT",
                 url: "api/film/"+ id +"",

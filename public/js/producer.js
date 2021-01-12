@@ -1,33 +1,5 @@
 $(document).ready(function(){
 
-    // all form validation for producer
-    
-         $("form").each(function() {
-            $(this).validate({
-                rules: {
-                name: { required:true, minlength:5 },
-                email: { required:true, maxlength:30 },
-                website: { required:true, maxlength:50 },
-                },
-                messages: {
-                name: {
-                    required: "Name could not be empty",
-                    minlength: "Name should be atleast 5 characters",
-                },
-                email: {
-                    required: "Note could not be empty",
-                    maxlength: "Noted have reached maximum characters allowed",
-                },
-                webiste: {
-                    required: "Note could not be empty",
-                    maxlength: "Noted have reached maximum characters allowed",
-                },
-                },
-                errorClass: "error fail-alert",
-                validClass: "valid success-alert",
-            });
-         });
-       
     // load index for all producers 
         var availableproducers = [];
     
@@ -56,7 +28,7 @@ $(document).ready(function(){
                 });
             },
             error: function(){
-                $('#modal-login-form').dialog().dialog('open');
+                // $('#modal-login-form').dialog().dialog('open');
                 console.log('AJAX load did not work');
             }
         });
@@ -123,10 +95,10 @@ $(document).ready(function(){
             OK: function(e){
                 e.preventDefault();
                 //ok button event will be made here
-                var name = $('input[id="name"]').val();
-                var email = $('input[id="email"]').val();
+                var name = $('input[id="producer_name"]').val();
+                var email = $('input[id="producer_email"]').val();
                 var website = $('input[id="website"]').val();
-                if(name != "" && email != ""){
+                if(name != "" && email != "" && website != ""){
                     // var data = $("#producerForm").serialize();
                     $.ajax({
                         type: "post",
@@ -179,8 +151,8 @@ $(document).ready(function(){
             contentType: "application/json",
             success: function (data) {
                 modal.find('#producer_id').val(data[0].id);
-                modal.find('#edit_name').val(data[0].name);
-                modal.find('#edit_email').val(data[0].email);
+                modal.find('#edit_producer_name').val(data[0].name);
+                modal.find('#edit_producer_email').val(data[0].email);
                 modal.find('#edit_website').val(data[0].website);
             },
             error: function(error) {
@@ -197,11 +169,11 @@ $(document).ready(function(){
     $('#update-producer-btn').click(function(e){
         e.preventDefault();
         var id = $('input[id="producer_id"]').val();
-        var name = $('input[name="name"]').val();
-        var email = $('input[name="email"]').val();
-        var website = $('input[name="website"]').val();
-        var data = $("#updateproducerForm").serialize();
-        if(name != "" && name.length >=5 && email != "" && website != "" ){
+        var name = $('input[id="edit_producer_name"]').val();
+        var email = $('input[id="edit_producer_email"]').val();
+        var website = $('input[id="edit_website"]').val();
+ 
+        if(name != "" && email != "" && website != "" ){
             $.ajax({
                 type: "PUT",
                 url: "api/producer/"+ id +"",
@@ -212,6 +184,15 @@ $(document).ready(function(){
                 dataType: "json",
                 contentType: "application/json",
                 success: function(data) {
+                    $.each(availableproducers,function(key,value){
+                        if(id == value.value){
+                            availableproducers.splice(key, 1);
+                            return false;
+                        }
+                    });
+    
+                    availableproducers.push({"label": name, "value": id });
+
                     $('#modal-producer-edit').each(function(){
                         $(this).modal('hide'); });
     
@@ -257,6 +238,13 @@ $(document).ready(function(){
                         dataType: "json",
                         contentType: "application/json",
                         success: function(data) {
+                            $.each(availableproducers,function(key,value){
+                                if(id == value.value){
+                                    availableproducers.splice(key, 1);
+                                    return false;
+                                }
+                            });
+
                             $('#producer_tr_'+ id).remove();
                         },
                         error: function(error) {

@@ -7,6 +7,13 @@ color: #FFFFFF;
 font-weight: bold;
 }
 
+.register {
+background: #cedc98;
+border: 1px solid #b9cd6d;
+color: #FFFFFF;
+font-weight: bold;
+}
+
 /* css for modal => dialog */
 .ui-widget-header,.ui-state-default, ui-button {
 background:#8298b0;

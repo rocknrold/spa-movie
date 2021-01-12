@@ -1,5 +1,7 @@
-@extends('layouts.app')
-@section('content')
+@include('layouts.header')
+{{-- @extends('layouts.app')
+@section('content') --}}
+<div class="container register">
 <h2>Create your new account now!!!</h2>
 <form id="registerForm" action="#" enctype="multipart/form-data">
 <fieldset>
@@ -27,8 +29,9 @@
 </fieldset>
 </form>
 <br>
-{{-- <div><a href="/login">Back to login </a></div> --}}
-@endsection
-@section('scripts')
+<div><a href="/">Back to login</a></div>
+</div>
+{{-- @endsection --}}
+{{-- @section('scripts') --}}
 <script src="{{asset("js/register.js")}}"></script>
-@endsection
+{{-- @endsection --}}

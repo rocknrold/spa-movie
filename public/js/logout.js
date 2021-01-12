@@ -26,7 +26,7 @@ $(document).ready(function(){
                     const status = data["message"];
                     localStorage.setItem("status",status); // lS
                 }
-                window.location.href = "/film";
+                window.location.href = "/";
             },
             error: function(error) {
                 console.log('error');
@@ -34,8 +34,8 @@ $(document).ready(function(){
         });
     } catch (error) {
         // complicated request are handled by catch and
-        // still be directed back to the film 
+        // still be directed back to the home
         console.log(error);
-        window.location.href = "/film";
+        window.location.href = "/";
     }
 });

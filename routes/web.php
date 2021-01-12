@@ -21,11 +21,7 @@ use Illuminate\Support\Facades\Mail;
 
 // });
 Route::get('/',function(){
-    return view('film.index');
-});
-
-Route::get('/film',function(){
-    return view('film.index');
+    return view('layouts.app');
 });
 
 Route::get('/login',function(){
@@ -38,20 +34,4 @@ Route::get('/register',function(){
 
 Route::get('/logout',function(){
     return view('auth.logout');
-});
-
-Route::get('/actor',function(){
-    return view('actor.index');
-});
-
-
-Route::get('/genre',function(){
-    return view('genre.index');
-});
-Route::get('/producer',function(){
-    return view('producer.index');
-});
-
-Route::get('/role',function(){
-    return view('role.index');
 });

@@ -1,23 +1,5 @@
 $(document).ready(function(){
 
-    // all form validation for genre
-    
-         $("form").each(function() {
-            $(this).validate({
-                rules: {
-                name: { required:true, minlength:5 },
-                },
-                messages: {
-                name: {
-                    required: "Name could not be empty",
-                    minlength: "Name should be atleast 5 characters",
-                    },
-                },
-                errorClass: "error fail-alert",
-                validClass: "valid success-alert",
-            });
-         });
-       
     // load index for all genres 
         var availablegenres = [];
     
@@ -44,7 +26,7 @@ $(document).ready(function(){
                 });
             },
             error: function(){
-                $("#modal-login-form").dialog().dialog("open");
+                // $("#modal-login-form").dialog().dialog("open");
                 console.log('AJAX load did not work');
             }
         });
@@ -111,8 +93,8 @@ $(document).ready(function(){
             OK: function(e){
                 e.preventDefault();
                 //ok button event will be made here
-                var name = $('input[id="name"]').val();
-                if( name != "" && name.length > 5 ){
+                var name = $('input[id="genre_name"]').val();
+                if( name != ""){
                     $.ajax({
                         type: "post",
                         url: "api/genre",
@@ -162,7 +144,7 @@ $(document).ready(function(){
             contentType: "application/json",
             success: function (data) {
                 modal.find('#genre_id').val(data[0].id);
-                modal.find('#edit_name').val(data[0].name);
+                modal.find('#edit_genre_name').val(data[0].name);
             },
             error: function(error) {
                 console.log('error');
@@ -178,9 +160,8 @@ $(document).ready(function(){
     $('#update-genre-btn').click(function(e){
         e.preventDefault();
         var id = $('input[id="genre_id"]').val();
-        var name = $('input[name="name"]').val();
-        var data = $("#updategenreForm").serialize();
-        if(name != "" && name.length >= 5){
+        var name = $('input[id="edit_genre_name"]').val();
+        if(name != ""){
             $.ajax({
                 type: "PUT",
                 url: "api/genre/"+ id +"",
@@ -191,7 +172,15 @@ $(document).ready(function(){
                 dataType: "json",
                 contentType: "application/json",
                 success: function(data) {
-                    console.log(data);
+                    $.each(availablegenres,function(key,value){
+                        if(id == value.value){
+                            availablegenres.splice(key, 1);
+                            return false;
+                        }
+                    });
+    
+                    availablegenres.push({"label": name, "value": id });
+
                     $('#modal-genre-edit').each(function(){
                         $(this).modal('hide'); });
     
@@ -234,9 +223,15 @@ $(document).ready(function(){
                         dataType: 'json',
                         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 
                                 'Authorization' : 'Bearer '+ localStorage.getItem("access_token")},
-                        dataType: "json",
                         contentType: "application/json",
                         success: function(data) {
+                            $.each(availablegenres,function(key,value){
+                                if(id == value.value){
+                                    availablegenres.splice(key, 1);
+                                    return false;
+                                }
+                            });
+
                             $('#genre_tr_'+ id).remove();
                         },
                         error: function(error) {

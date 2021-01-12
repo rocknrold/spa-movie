@@ -23,10 +23,10 @@ class FilmController extends Controller
 
     public function browseFilms(Request $request)
     {
-        // if ($request->ajax()){
+        if ($request->ajax()){
             $film = Film::orderBy('updated_at','desc')->get();
             return response()->json($film);
-        //  }
+         }
     }
 
     public function create()
@@ -42,10 +42,10 @@ class FilmController extends Controller
 
     public function show(Request $request, $id)
     {
-        // if ($request->ajax()) {
+        if ($request->ajax()) {
             $film = Film::where('id',$id)->first();
              return response()->json($film);
-        // }
+        }
     }
 
     public function edit($id)

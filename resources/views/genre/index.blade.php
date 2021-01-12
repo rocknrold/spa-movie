@@ -1,12 +1,12 @@
-@extends('layouts.app')
-@section('content')
+{{-- @extends('layouts.app')
+@section('content') --}}
 <div id = "tabs-genre">
-    <button id = "modal-genre-create">Add</button>
+    <button id = "modal-genre-create">Add genre</button>
     <div class = "ui-widget">
       <form id="genreSearchForm" method="GET">
       @csrf
       <label for = "genre-search"></label>
-      <input type="text" id = "genre-search" placeholder="search">
+      <input type="text" id = "genre-search" placeholder="search genre...">
       <input type="hidden" id= "selected-genre">
       <button type="submit" id="btnSearchgenre" value="search">GO</button>
       </form>
@@ -30,10 +30,10 @@
     <form id="genreForm" method="POST" action="#" class="formValidation">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
         <div>
-            <label for="name" >Name</label>
-            <input type="text" id="name" name="name" value="{{old('name')}}" >
-            @if($errors->has('name'))
-                <small>{{ $errors->first('name') }}</small>
+            <label for="genre_name" >Name</label>
+            <input type="text" id="genre_name" name="name" value="{{old('genre_name')}}" >
+            @if($errors->has('genre_name'))
+                <small>{{ $errors->first('genre_name') }}</small>
             @endif
         </div> 
     </form>
@@ -53,12 +53,12 @@
       <div class="modal-body">
         <form id="updategenreForm" method="POST" action="#" class="formValidation">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
-            <input type="hidden" name="id" id="genre_id">
+            <input type="hidden" name="genre_id" id="genre_id">
             <div>
-                <label for="name" >Name</label>
-                <input type="text" id="edit_name" name="name" >
-                @if($errors->has('name'))
-                    <small>{{ $errors->first('name') }}</small>
+                <label for="genre_name" >Name</label>
+                <input type="text" id="edit_genre_name" name="name" >
+                @if($errors->has('genre_name'))
+                    <small>{{ $errors->first('genre_name') }}</small>
                 @endif
             </div> 
         </form>
@@ -75,11 +75,11 @@
 <div id="showgenreDialog" title="">
   <p></p>
 </div>
-@include('auth.login')
+{{-- @include('auth.login')
 
 @endsection
 
 @section('scripts')
 <script src="{{asset('js/genre.js')}}"></script>
 <script src="{{asset('js/login.js')}}"></script>
-@endsection
+@endsection --}}

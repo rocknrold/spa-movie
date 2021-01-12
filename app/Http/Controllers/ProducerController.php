@@ -7,7 +7,6 @@ use App\Film;
 use App\FilmProducer;
 use View;
 use Redirect;
-use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 

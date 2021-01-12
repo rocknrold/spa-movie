@@ -1,28 +1,4 @@
 $(document).ready(function(){
-
-
-// all form validation for actor
-
-     $("form").each(function() {
-        $(this).validate({
-            rules: {
-            name: { required:true, minlength:5 },
-            note: { required:true, maxlength:20 },
-            },
-            messages: {
-            name: {
-                required: "Name could not be empty",
-                minlength: "Name should be atleast 5 characters",
-            },
-            note: {
-                required: "Note could not be empty",
-                maxlength: "Noted have reached maximum characters allowed",
-            },
-            },
-            errorClass: "error fail-alert",
-            validClass: "valid success-alert",
-        });
-     });
    
 // load index for all actors 
     var availableActors = [];
@@ -52,7 +28,7 @@ $(document).ready(function(){
             });
         },
         error: function(){
-            $("#modal-login-form").dialog().dialog("open");
+            // $("#modal-login-form").dialog().dialog("open");
             console.log('AJAX load did not work');
         }
     });
@@ -119,8 +95,8 @@ $('#actorSearchForm').submit(function(e){
         OK: function(e){
             e.preventDefault();
             //ok button event will be made here
-            if($('input[id="name"]').val() != "" && $('input[id="note"]').val() != ""){
-                var data = {name:$('input[id="name"]').val() ,note:$('input[id="note"]').val() };
+            if($('input[id="actor_name"]').val() != "" && $('input[id="note"]').val() != ""){
+                var data = {name:$('input[id="actor_name"]').val() ,note:$('input[id="note"]').val() };
                 $.ajax({
                     type: "post",
                     url: "/api/actor",
@@ -172,7 +148,7 @@ $('#modal-actor-edit').on('show.bs.modal', function (event) {
         contentType: "application/json",
         success: function (data) {
             modal.find('#actor_id').val(data[0].id);
-            modal.find('#edit_name').val(data[0].name);
+            modal.find('#edit_actor_name').val(data[0].name);
             modal.find('#edit_note').val(data[0].note);
         },
         error: function(error) {
@@ -189,10 +165,9 @@ $('#modal-actor-edit').on('hidden.bs.modal', function (e) {
 $('#update-actor-btn').click(function(e){
     e.preventDefault();
     var id = $('input[id="actor_id"]').val();
-    var name = $('input[name="name"]').val();
-    var note = $('input[name="note"]').val();
-    var data = $("#updateActorForm").serialize();
-    if(name != "" && note != "" && name.length >= 5){
+    var name = $('input[id="edit_actor_name"]').val();
+    var note = $('input[id="edit_note"]').val();
+    if(name != "" && note != "" ){
         $.ajax({
             type: "PUT",
             url: "api/actor/"+ id +"",
@@ -204,6 +179,16 @@ $('#update-actor-btn').click(function(e){
             dataType: "json",
             contentType: "application/json",
             success: function(data) {
+                $.each(availableActors,function(key,value){
+                    if(id == value.value){
+                        console.log(id + " == " + value.value);
+                        availableActors.splice(key, 1);
+                        return false;
+                    }
+                });
+
+                availableActors.push({"label": name, "value": id });
+
                 $('#modal-actor-edit').each(function(){
                     $(this).modal('hide'); });
 
@@ -211,7 +196,7 @@ $('#update-actor-btn').click(function(e){
                 '<th><button data-toggle="modal" data-target="#modal-actor-edit" data-id="'+ id +'">'+
                 '<i class="far fa-edit"></i></button></th><th><button class="deletebtn" data-id="'+ id +'">'+
                 '<i class="fa fa-trash-o" style="font-size:24px; color:red" ></i></button></th>');
-                
+  
             },
             error: function(error) {
             console.log('error');
@@ -248,8 +233,14 @@ $("#actor-table").on('click',".deletebtn",function(e) {
                     dataType: "json",
                     contentType: "application/json",
                     success: function(data) {
+                        $.each(availableActors,function(key,value){
+                            if(id === value.value){ 
+                                availableActors.splice(key, 1);
+                                return false;
+                            }
+                        });
+
                         $('#actor_tr_'+ id).remove();
-                        console.log(data);
                     },
                     error: function(error) {
                         console.log('error');
