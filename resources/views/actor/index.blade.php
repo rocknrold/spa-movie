@@ -1,12 +1,12 @@
-@extends('layouts.app')
-@section('content')
+{{-- @extends('layouts.app')
+@section('actor') --}}
 <div id = "tabs-actor">
-    <button id = "modal-actor-create">Add</button>
+    <button id = "modal-actor-create">Add Actor</button>
     <div class = "ui-widget">
       <form id="actorSearchForm" method="GET">
       @csrf
       <label for = "actor-search"></label>
-      <input type="text" id = "actor-search" placeholder="search">
+      <input type="text" id = "actor-search" placeholder="search actor...">
       <input type="hidden" id= "selected-actor">
       <button type="submit" id="btnSearchActor" value="search">GO</button>
       </form>
@@ -32,10 +32,10 @@
     <form id="actorForm" method="POST" action="#" class="formValidation">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
         <div>
-            <label for="name" >Name</label>
-            <input type="text" id="name" name="name" value="{{old('name')}}" >
-            @if($errors->has('name'))
-                <small>{{ $errors->first('name') }}</small>
+            <label for="actor_name" >Name</label>
+            <input type="text" id="actor_name" name="name" value="{{old('actor_name')}}" >
+            @if($errors->has('actor_name'))
+                <small>{{ $errors->first('actor_name') }}</small>
             @endif
         </div> 
         <div> 
@@ -64,10 +64,10 @@
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <input type="hidden" name="id" id="actor_id">
             <div>
-                <label for="name" >Name</label>
-                <input type="text" id="edit_name" name="name" >
-                @if($errors->has('name'))
-                    <small>{{ $errors->first('name') }}</small>
+                <label for="actor_name" >Name</label>
+                <input type="text" id="edit_actor_name" name="name" >
+                @if($errors->has('actor_name'))
+                    <small>{{ $errors->first('actor_name') }}</small>
                 @endif
             </div> 
             <div> 
@@ -92,11 +92,11 @@
   <p></p>
 </div>
 
-@include('auth.login')
+{{-- @include('auth.login')
 
 @endsection
 
 @section('scripts')
 <script src="{{asset('js/actor.js')}}"></script>
 <script src="{{asset('js/login.js')}}"></script>
-@endsection
+@endsection --}}

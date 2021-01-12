@@ -67,7 +67,7 @@ $(document).ready(function(){
                         alert(data["message"]);
                     }else if(data["success"]){
                         // if data passed the validation then redirect
-                        window.location.href = "/film";
+                        window.location.href = "/";
                     }
                 },
                 error: function(error) {

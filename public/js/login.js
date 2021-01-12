@@ -5,8 +5,8 @@ $(document).ready(function(){
             try {   
                 // checks for the item inside localstorage object 
                 if(localStorage.getItem("access_token") === null) {
-                    // if null show the register button in the menu bar
-                   $('#register').attr('style', 'display:inline');
+                    // if null hide the container
+                   $('#containerForAll').attr('style', 'display:none');
                 }else{
                     // if the user is authorize/login on the app then show logout
                     $('#logout').attr('style', 'display:inline');

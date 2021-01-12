@@ -8,19 +8,17 @@ used as a base pattern for all BREADS used in the web-app, basically it uses
 the same logic for all.
 
 --}}
-@extends('layouts.app')
-@section('content')
+{{-- @extends('layouts.app')
+@section('film') --}}
 <div id="tabs-movies">
-<button class="btn btn-primary m-3" id = "modal-film-create">
-    <span class="m-3"> Add Film</span><i class="fa fa-plus" aria-hidden="true"></i>
-</button>
+    <button id = "modal-film-create">Add Film</button>
 <div class = "ui-widget">
     <form id="filmSearchForm" method="GET">
         @csrf
         <label for = "film-search"></label>
-        <input type="text" id = "film-search" placeholder="search">
+        <input type="text" id = "film-search" placeholder="search film...">
         <input type="hidden" id= "selected-film">
-        <button type="submit" id="btnSearchActor" value="search">GO</button>
+        <button type="submit" id="btnSearchFilm" value="search">GO</button>
     </form>
 </div>
 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 p-5" id="film-table">
@@ -34,10 +32,10 @@ the same logic for all.
     <form id="filmForm" method="POST" action="#" class="formValidation">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
         <div>
-            <label for="name" >Name</label>
-            <input type="text" id="name" name="name" value="{{old('name')}}" >
-            @if($errors->has('name'))
-                <small>{{ $errors->first('name') }}</small>
+            <label for="film_name" >Name</label>
+            <input type="text" id="film_name" name="name" value="{{old('film_name')}}" >
+            @if($errors->has('film_name'))
+                <small>{{ $errors->first('film_name') }}</small>
             @endif
         </div>
         <div>
@@ -69,19 +67,19 @@ the same logic for all.
             @endif
         </div>
         <div class = "ui-widget"> 
-            <label for="genre_id">Genre</label>
-            <input type="text" id="genre_id" name="genre_id" value="{{old('genre_id')}}" >
-            <input type="hidden" id= "selected_genre_id">
-            @if($errors->has('genre_id'))
-                <small>{{ $errors->first('genre_id') }}</small>
+            <label for="genre_film_id">Genre</label>
+            <input type="text" id="genre_film_id" name="genre_film_id" value="{{old('genre_film_id')}}" >
+            <input type="hidden" id= "selected_genre_film_id">
+            @if($errors->has('genre_film_id'))
+                <small>{{ $errors->first('genre_film_id') }}</small>
             @endif
         </div>
         <div class = "ui-widget"> 
-            <label for="cert_id">Certificate</label>
-            <input type="text" id="cert_id" name="cert_id" value="{{old('cert_id')}}" >
-            <input type="hidden" id= "selected_cert_id">
-            @if($errors->has('cert_id'))
-                <small>{{ $errors->first('cert_id') }}</small>
+            <label for="cert_film_id">Certificate</label>
+            <input type="text" id="cert_film_id" name="cert_film_id" value="{{old('cert_film_id')}}" >
+            <input type="hidden" id= "selected_cert_film_id">
+            @if($errors->has('cert_film_id'))
+                <small>{{ $errors->first('cert_film_id') }}</small>
             @endif
         </div>
     </form>
@@ -103,10 +101,10 @@ the same logic for all.
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <input type="hidden" name="id" id="film_id">
                    <div>
-            <label for="name" >Name</label>
-            <input type="text" id="edit_name" name="name" value="{{old('name')}}" >
-            @if($errors->has('name'))
-                <small>{{ $errors->first('name') }}</small>
+            <label for="film_name" >Name</label>
+            <input type="text" id="edit_film_name" name="name" value="{{old('film_name')}}" >
+            @if($errors->has('film_name'))
+                <small>{{ $errors->first('film_name') }}</small>
             @endif
         </div>
         <div>
@@ -138,19 +136,19 @@ the same logic for all.
             @endif
         </div>
         <div class = "ui-widget"> 
-            <label for="genre_id">Genre</label>
-            <input type="text" id="edit_genre_id" name="genre_id" value="{{old('genre_id')}}" >
-            <input type="hidden" id= "edit_selected_genre_id">
-            @if($errors->has('genre_id'))
-                <small>{{ $errors->first('genre_id') }}</small>
+            <label for="genre_film_id">Genre</label>
+            <input type="text" id="edit_genre_film_id" name="genre_film_id" value="{{old('genre_film_id')}}" >
+            <input type="hidden" id= "edit_selected_genre_film_id">
+            @if($errors->has('genre_film_id'))
+                <small>{{ $errors->first('genre_film_id') }}</small>
             @endif
         </div>
         <div class = "ui-widget"> 
-            <label for="cert_id">Certificate</label>
-            <input type="text" id="edit_cert_id" name="cert_id" value="{{old('cert_id')}}" >
-            <input type="hidden" id= "edit_selected_cert_id">
-            @if($errors->has('cert_id'))
-                <small>{{ $errors->first('cert_id') }}</small>
+            <label for="cert_film_id">Certificate</label>
+            <input type="text" id="edit_cert_film_id" name="cert_film_id" value="{{old('cert_film_id')}}" >
+            <input type="hidden" id= "edit_selected_cert_film_id">
+            @if($errors->has('cert_film_id'))
+                <small>{{ $errors->first('cert_film_id') }}</small>
             @endif
         </div>
         </form>
@@ -167,10 +165,13 @@ the same logic for all.
 <div id="showFilmDialog" title="">
   <p></p>
 </div>
-@include('auth.login')
+{{-- this is the enddiv tab --}}
+</div> 
+
+{{-- @include('auth.login')
 @endsection
 
 @section('scripts')
 <script src="{{asset('js/film.js')}}"></script>
 <script src="{{asset('js/login.js')}}"></script>
-@endsection
+@endsection --}}

@@ -1,12 +1,12 @@
-@extends('layouts.app')
-@section('content')
+{{-- @extends('layouts.app')
+@section('content') --}}
 <div id = "tabs-producer">
-    <button id = "modal-producer-create">Add</button>
+    <button id = "modal-producer-create">Add Producer</button>
     <div class = "ui-widget">
       <form id="producerSearchForm" method="GET">
       @csrf
       <label for = "producer-search"></label>
-      <input type="text" id = "producer-search" placeholder="search">
+      <input type="text" id = "producer-search" placeholder="search producer...">
       <input type="hidden" id= "selected-producer">
       <button type="submit" id="btnSearchproducer" value="search">GO</button>
       </form>
@@ -32,17 +32,17 @@
     <form id="producerForm" method="POST" action="#" class="formValidation">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
         <div>
-            <label for="name" >Name</label>
-            <input type="text" id="name" name="name" value="{{old('name')}}" >
-            @if($errors->has('name'))
-                <small>{{ $errors->first('name') }}</small>
+            <label for="producer_name" >Name</label>
+            <input type="text" id="producer_name" name="name" value="{{old('producer_name')}}" >
+            @if($errors->has('producer_name'))
+                <small>{{ $errors->first('producer_name') }}</small>
             @endif
         </div> 
         <div> 
-            <label for="email">Email</label>
-            <input type="text" id="email" name="email" value="{{old('email')}}" >
-            @if($errors->has('email'))
-                <small>{{ $errors->first('email') }}</small>
+            <label for="producer_email">Email</label>
+            <input type="text" id="producer_email" name="email" value="{{old('producer_email')}}" >
+            @if($errors->has('producer_email'))
+                <small>{{ $errors->first('producer_email') }}</small>
             @endif
         </div>
         <div> 
@@ -71,17 +71,17 @@
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <input type="hidden" name="id" id="producer_id">
             <div>
-                <label for="name" >Name</label>
-                <input type="text" id="edit_name" name="name" >
-                @if($errors->has('name'))
-                    <small>{{ $errors->first('name') }}</small>
+                <label for="producer_name" >Name</label>
+                <input type="text" id="edit_producer_name" name="name" >
+                @if($errors->has('producer_name'))
+                    <small>{{ $errors->first('producer_name') }}</small>
                 @endif
             </div> 
             <div> 
-                <label for="email">Email</label>
-                <input type="text" id="edit_email" name="email">
-                @if($errors->has('email'))
-                    <small>{{ $errors->first('email') }}</small>
+                <label for="producer_email">producer_email</label>
+                <input type="text" id="edit_producer_email" name="email">
+                @if($errors->has('producer_email'))
+                    <small>{{ $errors->first('producer_email') }}</small>
                 @endif
             </div>
             <div> 
@@ -105,11 +105,11 @@
 <div id="showproducerDialog" title="">
   <p></p>
 </div>
-@include('auth.login')
+{{-- @include('auth.login')
 
 @endsection
 
 @section('scripts')
 <script src="{{asset('js/producer.js')}}"></script>
 <script src="{{asset('js/login.js')}}"></script>
-@endsection
+@endsection --}}

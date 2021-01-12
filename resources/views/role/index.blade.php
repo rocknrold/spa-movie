@@ -1,12 +1,12 @@
-@extends('layouts.app')
-@section('content')
+{{-- @extends('layouts.app')
+@section('content') --}}
 <div id = "tabs-role">
-    <button id = "modal-role-create">Add</button>
+    <button id = "modal-role-create">Add Role</button>
     <div class = "ui-widget">
       <form id="roleSearchForm" method="GET">
       @csrf
       <label for = "role-search"></label>
-      <input type="text" id = "role-search" placeholder="search">
+      <input type="text" id = "role-search" placeholder="search role...">
       <input type="hidden" id= "selected-role">
       <button type="submit" id="btnSearchrole" value="search">GO</button>
       </form>
@@ -30,10 +30,10 @@
     <form id="roleForm" method="POST" action="#" class="formValidation">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
         <div>
-            <label for="name" >Name</label>
-            <input type="text" id="name" name="name" value="{{old('name')}}" >
-            @if($errors->has('name'))
-                <small>{{ $errors->first('name') }}</small>
+            <label for="role_name" >Name</label>
+            <input type="text" id="role_name" name="name" value="{{old('role_name')}}" >
+            @if($errors->has('role_name'))
+                <small>{{ $errors->first('role_name') }}</small>
             @endif
         </div> 
     </form>
@@ -55,10 +55,10 @@
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <input type="hidden" name="id" id="role_id">
             <div>
-                <label for="name" >Name</label>
-                <input type="text" id="edit_name" name="name" >
-                @if($errors->has('name'))
-                    <small>{{ $errors->first('name') }}</small>
+                <label for="role_name" >Name</label>
+                <input type="text" id="edit_role_name" name="name" >
+                @if($errors->has('role_name'))
+                    <small>{{ $errors->first('role_name') }}</small>
                 @endif
             </div> 
         </form>
@@ -75,11 +75,11 @@
 <div id="showroleDialog" title="">
   <p></p>
 </div>
-@include('auth.login')
+{{-- @include('auth.login')
 
 @endsection
 
 @section('scripts')
 <script src="{{asset('js/role.js')}}"></script>
 <script src="{{asset('js/login.js')}}"></script>
-@endsection
+@endsection --}}

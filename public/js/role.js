@@ -1,23 +1,5 @@
 $(document).ready(function(){
-
-    // all form validation for role
     
-         $("form").each(function() {
-            $(this).validate({
-                rules: {
-                name: { required:true, minlength:5 },
-                },
-                messages: {
-                name: {
-                    required: "Name could not be empty",
-                    minlength: "Name should be atleast 5 characters",
-                    },
-                },
-                errorClass: "error fail-alert",
-                validClass: "valid success-alert",
-            });
-         });
-       
     // load index for all roles 
         var availableroles = [];
     
@@ -111,8 +93,8 @@ $(document).ready(function(){
             OK: function(e){
                 e.preventDefault();
                 //ok button event will be made here
-                var name = $('input[id="name"]').val();
-                if( name != "" && name.length >= 5 ){
+                var name = $('input[id="role_name"]').val();
+                if( name != ""){
                     // var data = $("#roleForm").serialize();
                     $.ajax({
                         type: "post",
@@ -163,7 +145,7 @@ $(document).ready(function(){
             contentType: "application/json",
             success: function (data) {
                 modal.find('#role_id').val(data[0].id);
-                modal.find('#edit_name').val(data[0].name);
+                modal.find('#edit_role_name').val(data[0].name);
             },
             error: function(error) {
                 console.log('error');
@@ -179,9 +161,9 @@ $(document).ready(function(){
     $('#update-role-btn').click(function(e){
         e.preventDefault();
         var id = $('input[id="role_id"]').val();
-        var name = $('input[name="name"]').val();
+        var name = $('input[id="edit_role_name"]').val();
         // var data = $("#updateroleForm").serialize();
-        if(name != "" && name.length >= 5){
+        if(name != ""){
             $.ajax({
                 type: "PUT",
                 url: "api/role/"+ id +"",
@@ -192,7 +174,16 @@ $(document).ready(function(){
                 dataType: "json",
                 contentType: "application/json",
                 success: function(data) {
-                    console.log(data);
+                    $.each(availableroles,function(key,value){
+                        if(id == value.value){
+                            console.log(id + " == " + value.value);
+                            availableroles.splice(key, 1);
+                            return false;
+                        }
+                    });
+    
+                    availableroles.push({"label": name, "value": id });
+
                     $('#modal-role-edit').each(function(){
                         $(this).modal('hide'); });
     
@@ -238,6 +229,14 @@ $(document).ready(function(){
                         dataType: "json",
                         contentType: "application/json",
                         success: function(data) {
+                            $.each(availableroles,function(key,value){
+                                if(id == value.value){
+                                    console.log(id + " == " + value.value);
+                                    availableroles.splice(key, 1);
+                                    return false;
+                                }
+                            });
+                            
                             $('#role_tr_'+ id).remove();
                         },
                         error: function(error) {
