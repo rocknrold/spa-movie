@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Role;
-use View;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use View;
+use App\Role;
 
 class roleController extends Controller
 {
@@ -27,16 +27,6 @@ class roleController extends Controller
             $role = Role::orderBy('updated_at','desc')->get();
             return response()->json($role);
         }
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-
     }
 
     /**

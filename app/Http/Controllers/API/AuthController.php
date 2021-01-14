@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Mail;
 use App\User;
 use App\Events\UserLogin;
 use App\Models\LoginLog;
-// use App\Mail\LoginEMail;
 
 
 class AuthController extends Controller

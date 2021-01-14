@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Genre;
-use View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use View;
+use App\Genre;
 
 class GenreController extends Controller
 {
@@ -30,16 +30,6 @@ class GenreController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -54,8 +44,8 @@ class GenreController extends Controller
     /**
      * Display the specified resource.
      *
-     // * @param  \App\genre  $genre
-     // * @return \Illuminate\Http\Response
+     * @param  \App\genre  $genre
+     * @return \Illuminate\Http\Response
      */
     public function show(Request $request, $id)
     {

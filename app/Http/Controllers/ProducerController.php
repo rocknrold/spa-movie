@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Producer;
-use App\Film;
-use App\FilmProducer;
-use View;
-use Redirect;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use View;
+use Redirect;
+use App\Producer;
 
 class ProducerController extends Controller
 {
@@ -30,16 +28,6 @@ class ProducerController extends Controller
             $producer = Producer::orderBy('updated_at','desc')->get();
             return response()->json($producer);
         }
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-
     }
 
     /**

@@ -2,16 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Film;
-use App\FilmUser;
-use App\Genre;
-use App\Certificate;
-use View;
-use Redirect;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use View;
+use Redirect;
+use App\Film;
+use App\Certificate;
 
 class FilmController extends Controller
 {
@@ -27,11 +23,6 @@ class FilmController extends Controller
             $film = Film::orderBy('updated_at','desc')->get();
             return response()->json($film);
          }
-    }
-
-    public function create()
-    {
-
     }
 
     public function store(Request $request)
@@ -75,12 +66,5 @@ class FilmController extends Controller
         $film->delete();
         return response()->json(["success" => "Actor deleted successfully.",
              "data" => $film,"status" => 200]);
-    }
-
-    public function restore($id)
-    {
-        $film = new Film;
-        $film->where('id',$id)->restore();
-        return Redirect::route('film.index')->with('success','Film Restored');
     }
 }
