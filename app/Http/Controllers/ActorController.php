@@ -15,10 +15,6 @@ class ActorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    // public function __construct()
-    // {
-    //     $this->middleware('auth');
-    // }
 
     public function index()
     {
@@ -33,15 +29,6 @@ class ActorController extends Controller
          }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        // return view('actor.create');
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -109,12 +96,5 @@ class ActorController extends Controller
         $actor->delete();
         return response()->json(["success" => "Actor deleted successfully.",
              "data" => $actor,"status" => 200]);
-    }
-
-    public function restore($id) 
-    {
-        $actor = new Actor;
-        $actor->where('id',$id)->restore();
-        return  Redirect::route('actor.index')->with('success','Actor restored successfully!');
     }
 }
