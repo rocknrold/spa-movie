@@ -56,7 +56,6 @@ $('#actorSearchForm').submit(function(e){
         $.ajax({
             type : "GET",
             url : "api/actor/show/" + id,
-            dataType: "json",
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 
                     'Authorization' : 'Bearer '+ localStorage.getItem("access_token")},
             dataType: "json",

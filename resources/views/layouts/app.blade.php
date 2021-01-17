@@ -38,13 +38,8 @@
 @include('layouts.footer')
 </div>
 @include('auth.login')
+<script src="{{asset('js/auth.js')}}"></script>
 <script src="{{asset('js/validation.js')}}"></script>
-<script src="{{asset('js/film.js')}}"></script>
-<script src="{{asset('js/actor.js')}}"></script>
-<script src="{{asset('js/producer.js')}}"></script>
-<script src="{{asset('js/genre.js')}}"></script>
-<script src="{{asset('js/role.js')}}"></script>
-<script src="{{asset('js/login.js')}}"></script>
 @yield('scripts')
 </body>
 </html>
