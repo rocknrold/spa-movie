@@ -29,7 +29,7 @@ the same logic for all.
 </div>
 
 <div id = "modal-film-form" title = "Create film... ">
-    <form id="filmForm" method="POST" action="#" class="formValidation">
+    <form id="filmForm" method="POST" action="#" class="formValidation" enctype="multipart/form-data">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
         <div>
             <label for="film_name" >Name</label>
@@ -68,18 +68,25 @@ the same logic for all.
         </div>
         <div class = "ui-widget"> 
             <label for="genre_film_id">Genre</label>
-            <input type="text" id="genre_film_id" name="genre_film_id" value="{{old('genre_film_id')}}" >
+            <input type="text" id="genre_film_id" name="genre_id" value="{{old('genre_id')}}" >
             <input type="hidden" id= "selected_genre_film_id">
-            @if($errors->has('genre_film_id'))
-                <small>{{ $errors->first('genre_film_id') }}</small>
+            @if($errors->has('genre_id'))
+                <small>{{ $errors->first('genre_id') }}</small>
             @endif
         </div>
         <div class = "ui-widget"> 
             <label for="cert_film_id">Certificate</label>
-            <input type="text" id="cert_film_id" name="cert_film_id" value="{{old('cert_film_id')}}" >
+            <input type="text" id="cert_film_id" name="certificate_id" value="{{old('certificate_id')}}" >
             <input type="hidden" id= "selected_cert_film_id">
-            @if($errors->has('cert_film_id'))
-                <small>{{ $errors->first('cert_film_id') }}</small>
+            @if($errors->has('certificate_id'))
+                <small>{{ $errors->first('certificate_id') }}</small>
+            @endif
+        </div>
+        <div class = "ui-widget"> 
+            <label for="poster">Film Poster</label>
+            <input type="file" id="poster" name="poster">
+            @if($errors->has('poster'))
+                <small>{{ $errors->first('poster') }}</small>
             @endif
         </div>
     </form>
@@ -97,7 +104,7 @@ the same logic for all.
         </button>
       </div>
       <div class="modal-body ui-front">
-        <form id="updateFilmForm" method="POST" action="#" class="formValidation">
+        <form id="updateFilmForm" method="PUT" action="#" class="formValidation" enctype="multipart/form-data">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <input type="hidden" name="id" id="film_id">
                    <div>
@@ -151,6 +158,13 @@ the same logic for all.
                 <small>{{ $errors->first('cert_film_id') }}</small>
             @endif
         </div>
+        <div class = "ui-widget"> 
+            <label for="poster">Film Poster</label>
+            <input type="file" id="edit_poster" name="poster">
+            @if($errors->has('film_poster'))
+                <small>{{ $errors->first('film_poster') }}</small>
+            @endif
+        </div>
         </form>
       </div>
       <div class="modal-footer">
@@ -167,11 +181,3 @@ the same logic for all.
 </div>
 {{-- this is the enddiv tab --}}
 </div> 
-
-{{-- @include('auth.login')
-@endsection
-
-@section('scripts')
-<script src="{{asset('js/film.js')}}"></script>
-<script src="{{asset('js/login.js')}}"></script>
-@endsection --}}

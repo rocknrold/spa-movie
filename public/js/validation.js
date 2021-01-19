@@ -14,6 +14,7 @@ $(document).ready(function(){
                     note: { required:true, maxlength:20 },
                     email: { required:true, email:true },
                     website: { required:true, maxlength:50 },
+                    poster: { required:false, extension: "jpg|png|jpeg"},
                 },
                 messages: {
                     name: {
@@ -49,6 +50,9 @@ $(document).ready(function(){
                     website: {
                         required: "Note could not be empty",
                         maxlength: "Noted have reached maximum characters allowed",
+                    },
+                    poster {
+                        extension: "Not a valid image",
                     }
 
                 },

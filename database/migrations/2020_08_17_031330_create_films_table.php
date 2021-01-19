@@ -25,6 +25,7 @@ class CreateFilmsTable extends Migration
             $table->unsignedBigInteger('certificate_id')->nullable();
             $table->foreign('certificate_id')->references('id')->on('certificates')->onDelete('cascade')->onUpdate('cascade');
             $table->unsignedBigInteger('media_id')->nullable();
+            $table->string('poster')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

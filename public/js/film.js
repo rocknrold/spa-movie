@@ -135,30 +135,24 @@ $(document).ready(function(){
                 var duration = $('input[id="duration"]').val();
                 var genre_id = $('input[id="selected_genre_film_id"]').val();
                 var cert_id = $('input[id="selected_cert_film_id"]').val();
+
                 //some input validation 
                 if(name != "" && story != "" && info != "" && released_at != null){
-                    // the accessed data is now being formatted to be a json
-                    // because the api request accepts application/json as 
-                    // content type and forms here uses multipart-form as encoding type
-                    var data = {
-                        name:name,
-                        story:story,
-                        released_at:released_at,
-                        duration:duration,
-                        info:info,
-                        genre_id:genre_id,
-                        certificate_id:cert_id
-                    };
+
+                    let myForm = document.getElementById('filmForm');
+                    let formData = new FormData(myForm);
 
                     $.ajax({
                         type: "post",
                         url: "api/film",
-                        data: JSON.stringify(data), // for validation that we uses json, stringify does it also
-                        dataType: 'json',
+                        data : formData,
+                        // data: JSON.stringify(data), // for validation that we uses json, stringify does it also
+                        // dataType: 'json',
                         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 
                                 'Authorization' : 'Bearer '+ localStorage.getItem("access_token")},
-                        dataType: "json",
-                        contentType: "application/json",
+                        // contentType: "application/json",
+                        contentType: false,
+                        processData: false,
                         success: function(data) {
                             availableFilms.push({"label": data.name, "value": data.id });
                             
@@ -230,9 +224,9 @@ var availableCerts = [];
         autoFocus:true,
         select: function (event, ui) {
             // Set selection
-            $('#genre_film_id').val(ui.item.label); // display the selected text
+            $('#genre_film_id').val(ui.item.value); // display the selected text
             $('#selected_genre_film_id').val(ui.item.value); // save selected id to input
-            $('#edit_genre_film_id').val(ui.item.label); // display the selected text
+            $('#edit_genre_film_id').val(ui.item.value); // display the selected text
             $('#edit_selected_genre_film_id').val(ui.item.value); // save selected id to input
             
             return false;
@@ -244,9 +238,9 @@ var availableCerts = [];
         autoFocus:true,
         select: function (event, ui) {
             // Set selection
-            $('#cert_film_id').val(ui.item.label); // display the selected text
+            $('#cert_film_id').val(ui.item.value); // display the selected text
             $('#selected_cert_film_id').val(ui.item.value); // save selected id to input
-            $('#edit_cert_film_id').val(ui.item.label); // display the selected text
+            $('#edit_cert_film_id').val(ui.item.value); // display the selected text
             $('#edit_selected_cert_film_id').val(ui.item.value); // save selected id to input
             
             return false;
