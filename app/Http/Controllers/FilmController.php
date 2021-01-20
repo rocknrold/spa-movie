@@ -51,15 +51,11 @@ class FilmController extends Controller
     public function update(Request $request, $id)
     {
         if ($request->ajax()) {
-            $film = Film::where('id', $id)->update(['name' => $request->name, 
-            'story' => $request->story,
-            'released_at' => $request->released_at,
-            'duration' => $request->duration,
-            'info' => $request->info,
-            'genre_id' => $request->genre_id,
-            'certificate_id' => $request->certificate_id,]);
-
-            $this->storePoster($film);
+            $film = Film::where('id', $id)->update($this->validateRequest());
+            
+            if(request()->has('poster')){
+                $film = Film::where('id', $id)->update(['poster' => request()->poster->store('uploads','public'),]);
+            }
             
             return response()->json($film);
         }

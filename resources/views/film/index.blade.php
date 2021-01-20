@@ -104,7 +104,8 @@ the same logic for all.
         </button>
       </div>
       <div class="modal-body ui-front">
-        <form id="updateFilmForm" method="PUT" action="#" class="formValidation" enctype="multipart/form-data">
+        <form id="updateFilmForm" action="#" class="formValidation" enctype="multipart/form-data">
+            <input type="hidden" name="_method" value="PUT">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <input type="hidden" name="id" id="film_id">
                    <div>
@@ -144,7 +145,7 @@ the same logic for all.
         </div>
         <div class = "ui-widget"> 
             <label for="genre_film_id">Genre</label>
-            <input type="text" id="edit_genre_film_id" name="genre_film_id" value="{{old('genre_film_id')}}" >
+            <input type="text" id="edit_genre_film_id" name="genre_id" value="{{old('genre_film_id')}}" >
             <input type="hidden" id= "edit_selected_genre_film_id">
             @if($errors->has('genre_film_id'))
                 <small>{{ $errors->first('genre_film_id') }}</small>
@@ -152,7 +153,7 @@ the same logic for all.
         </div>
         <div class = "ui-widget"> 
             <label for="cert_film_id">Certificate</label>
-            <input type="text" id="edit_cert_film_id" name="cert_film_id" value="{{old('cert_film_id')}}" >
+            <input type="text" id="edit_cert_film_id" name="certificate_id" value="{{old('cert_film_id')}}" >
             <input type="hidden" id= "edit_selected_cert_film_id">
             @if($errors->has('cert_film_id'))
                 <small>{{ $errors->first('cert_film_id') }}</small>
