@@ -85,7 +85,6 @@ $(document).ready(function(){
             $.ajax({
                 type : "GET",
                 url : "api/film/show/" + id,
-                dataType: 'json',
                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 
                         'Authorization' : 'Bearer '+ localStorage.getItem("access_token")},
                 dataType: "json",
@@ -100,7 +99,8 @@ $(document).ready(function(){
                         title : "Showing details for "+ data.name,
                         resizable : true,
                         open : function(){
-                            var content = "<p>"+ data.name +"</p><p>"+ data.story +"</p>&nbsp;<p>"+ readable_duration +"</p><span>Release date: "+ data.released_at+"</span>";
+                            var content = "<p>"+ data.name +"</p><p>"+ data.story +"</p>&nbsp;<p>"+ readable_duration +"</p>"+
+                            "<img src='/storage/"+ data.poster +"' alt='' class='img-thumbnail'><span>Release date: "+ data.released_at+"</span>";
                             $('#showFilmDialog').html(content);
                         },
                         buttons: {
@@ -135,30 +135,23 @@ $(document).ready(function(){
                 var duration = $('input[id="duration"]').val();
                 var genre_id = $('input[id="selected_genre_film_id"]').val();
                 var cert_id = $('input[id="selected_cert_film_id"]').val();
+
                 //some input validation 
                 if(name != "" && story != "" && info != "" && released_at != null){
-                    // the accessed data is now being formatted to be a json
-                    // because the api request accepts application/json as 
-                    // content type and forms here uses multipart-form as encoding type
-                    var data = {
-                        name:name,
-                        story:story,
-                        released_at:released_at,
-                        duration:duration,
-                        info:info,
-                        genre_id:genre_id,
-                        certificate_id:cert_id
-                    };
 
+                    let myForm = document.getElementById('filmForm');
+                    let formData = new FormData(myForm);
                     $.ajax({
                         type: "post",
                         url: "api/film",
-                        data: JSON.stringify(data), // for validation that we uses json, stringify does it also
-                        dataType: 'json',
+                        data : formData,
+                        // data: JSON.stringify(data), // for validation that we uses json, stringify does it also
+                        // dataType: 'json',
                         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 
                                 'Authorization' : 'Bearer '+ localStorage.getItem("access_token")},
-                        dataType: "json",
-                        contentType: "application/json",
+                        // contentType: "application/json",
+                        contentType: false,
+                        processData: false,
                         success: function(data) {
                             availableFilms.push({"label": data.name, "value": data.id });
                             
@@ -230,9 +223,9 @@ var availableCerts = [];
         autoFocus:true,
         select: function (event, ui) {
             // Set selection
-            $('#genre_film_id').val(ui.item.label); // display the selected text
+            $('#genre_film_id').val(ui.item.value); // display the selected text
             $('#selected_genre_film_id').val(ui.item.value); // save selected id to input
-            $('#edit_genre_film_id').val(ui.item.label); // display the selected text
+            $('#edit_genre_film_id').val(ui.item.value); // display the selected text
             $('#edit_selected_genre_film_id').val(ui.item.value); // save selected id to input
             
             return false;
@@ -244,9 +237,9 @@ var availableCerts = [];
         autoFocus:true,
         select: function (event, ui) {
             // Set selection
-            $('#cert_film_id').val(ui.item.label); // display the selected text
+            $('#cert_film_id').val(ui.item.value); // display the selected text
             $('#selected_cert_film_id').val(ui.item.value); // save selected id to input
-            $('#edit_cert_film_id').val(ui.item.label); // display the selected text
+            $('#edit_cert_film_id').val(ui.item.value); // display the selected text
             $('#edit_selected_cert_film_id').val(ui.item.value); // save selected id to input
             
             return false;
@@ -293,12 +286,13 @@ var availableCerts = [];
                 modal.find('#film_id').val(data.id);
                 modal.find('#edit_film_name').val(data.name);
                 modal.find('#edit_story').val(data.story);
+
                 modal.find('#edit_duration').val(data.duration);
                 modal.find('#edit_released_at').val(data.released_at);
                 modal.find('#edit_info').val(data.info);
-                modal.find('#edit_genre_film_id').val(genrevalue);
+                modal.find('#edit_genre_film_id').val(genreid);
                 modal.find('#edit_selected_genre_film_id').val(genreid);
-                modal.find('#edit_cert_film_id').val(certvalue);
+                modal.find('#edit_cert_film_id').val(certid);
                 modal.find('#edit_selected_cert_film_id').val(certid);
             },
             error: function(error) {
@@ -318,30 +312,23 @@ var availableCerts = [];
         var name = $('input[id="edit_film_name"]').val();
         var story = $('textarea#edit_story').val();
         var info = $('input[id="edit_info"]').val();
-        var released_at = $('input[id="edit_released_at"]').val();
-        var duration = $('input[id="edit_duration"]').val();
-        var genre_id = $('#edit_selected_genre_film_id').val();
-        var cert_id = $('#edit_selected_cert_film_id').val();
 
-        var data = {
-            name:name,
-            story:story,
-            released_at:released_at,
-            duration:duration,
-            info:info,
-            genre_id:genre_id,
-            certificate_id:cert_id
-        };
         if(name != "" && story != "" && info !=""){
+
+            let myForm = document.getElementById('updateFilmForm');
+            let formData = new FormData(myForm);
+
             $.ajax({
-                type: "PUT",
+                type: "POST",
                 url: "api/film/"+ id +"",
-                data: JSON.stringify(data),
-                dataType: 'json',
+                data: formData,
+                // dataType: 'json',
                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 
                         'Authorization' : 'Bearer '+ localStorage.getItem("access_token")},
-                dataType: "json",
-                contentType: "application/json",
+                // dataType: "json",
+                // contentType: "application/json",
+                contentType: false,
+                processData: false,
                 success: function() {
                     $.each(availableFilms,function(key,value){
                         if(id == value.value){

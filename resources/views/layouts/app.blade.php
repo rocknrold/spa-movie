@@ -1,7 +1,5 @@
 {{-- 
-    This is the main layout used in the whole web-app 
-    it is extended along to the different files inside
-    /views directory, it may be considered as the master 
+    master layout
  --}}
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
@@ -39,7 +37,6 @@
 </div>
 @include('auth.login')
 <script src="{{asset('js/auth.js')}}"></script>
-<script src="{{asset('js/validation.js')}}"></script>
-@yield('scripts')
+@yield('scripts') {{-- for logout--}}
 </body>
 </html>

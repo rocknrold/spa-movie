@@ -14,12 +14,7 @@ use Illuminate\Support\Facades\Mail;
 | contains the "web" middleware group. Now create something great!
 |
 */
-// Route::middleware(['check.login'])->group(function () {
-// });
-// Route::get('/film', function () {
-//     return view('layouts.app');
 
-// });
 Route::get('/',function(){
     return view('layouts.app');
 });
