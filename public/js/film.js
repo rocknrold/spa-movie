@@ -42,8 +42,13 @@ $(document).ready(function(){
                 // this line is necessary for search function it pushes data to be search
                     availableFilms.push({"label": value.name, "value": value.id });
                     id = value.id;
+                    if(value.poster !== null){
+                        var poster ='/storage/'+ value.poster;
+                    }else {
+                        var poster = "../logo-02.jpg";
+                    }
                     $('#film-table').append('<div class="col-sm-6" id="film_div_'+ id +'">'+
-                    '<div class="card h-100"><img class="card-img-top" src="../logo-02.jpg" alt="Card image cap">'+
+                    '<div class="card h-100"><img class="card-img-top img-thumbnail" src="'+ poster +'" alt="Card image cap" style="max-width:50%;">'+
                     '<div class="card-body">'+
                     '<h5 class="card-title">'+ value.name +'</h5>'+
                     '<p class="card-text">'+ value.info +'</p>'+
@@ -154,9 +159,15 @@ $(document).ready(function(){
                         processData: false,
                         success: function(data) {
                             availableFilms.push({"label": data.name, "value": data.id });
-                            
+
+                            if(data.poster !== null){
+                                var poster ='/storage/'+ data.poster;
+                            }else {
+                                var poster = "../logo-02.jpg";
+                            }
+                            console.log(poster);
                             $('#film-table').prepend('<div class="col-sm-6" id="film_div_'+ id +'">'+
-                            '<div class="card h-100"><img class="card-img-top" src="../logo-02.jpg" alt="Card image cap">'+
+                            '<div class="card h-100"><img class="card-img-top img-thumbnail" src="'+ poster +'" alt="Card image cap" style="max-widht:50%;">'+
                             '<div class="card-body">'+
                             '<h5 class="card-title">'+ data.name +'</h5>'+
                             '<p class="card-text">'+ data.info +'</p>'+
@@ -361,6 +372,7 @@ var availableCerts = [];
     // delete film 
     $("#film-table").on('click',".deletebtn",function(e) {
         var id = $(this).data('id');
+        console.log(id);
         e.preventDefault();
         bootbox.confirm({
             message: "do you want to delete this film",
