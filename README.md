@@ -1,6 +1,6 @@
 setup
 
-composer update
-php artisan migrate
-php artisan db:seed 
+<p>composer update</p>
+<p>php artisan migrate</p>
+<p>php artisan db:seed</p>
 
