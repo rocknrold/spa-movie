@@ -30,7 +30,7 @@ class Film extends Model
         return $this->hasMany(ActorRole::class);
     }
 
-    public function filmUsers(){
-        return $this->hasMany(FilmUser::class);
+    public function filmRating(){
+        return $this->hasMany(Rating::class);
     }
 }
