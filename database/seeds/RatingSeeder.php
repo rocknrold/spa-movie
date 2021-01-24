@@ -17,6 +17,7 @@ class RatingSeeder extends Seeder
             App\Rating::create([
                 'film_id' => $i,
                 'user_id' => 1,
+                'rating_value' => $faker->numberBetween($min = 1, $max = 5),
             ]);
         }
     }
