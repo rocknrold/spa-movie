@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Rating extends Model
 {
-    protected $fillable = ['film_id','user_id'];
+    protected $fillable = ['film_id','user_id','rating_value'];
 
     public function film(){
         return $this->hasMany('App\Film');

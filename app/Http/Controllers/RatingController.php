@@ -34,8 +34,22 @@ class RatingController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //
+    {   
+        $ratingCheck = Rating::where('film_id', '=', $request->film_id)
+                            ->where('user_id','=',$request->user_id)->first();
+        // dd($ratingCheck);
+        
+        if($ratingCheck !== null)
+        {
+            $rating = Rating::where('film_id', $request->film_id)
+                            ->where('user_id',$request->user_id)
+                            ->update(['rating_value' => $request->rating_value]);
+
+            return response()->json(['msg'=>'updated']);
+        } else {
+            $rating = Rating::create($request->all());
+            return response()->json($rating);
+        }
     }
 
     /**
@@ -44,9 +58,12 @@ class RatingController extends Controller
      * @param  \App\Rating  $rating
      * @return \Illuminate\Http\Response
      */
-    public function show(Rating $rating)
+    public function show($id,$user_id)
     {
-        //
+        $rating = Rating::where('film_id',$id)
+                        ->where('user_id',$user_id)
+                        ->get();
+        return response()->json($rating);
     }
 
     /**

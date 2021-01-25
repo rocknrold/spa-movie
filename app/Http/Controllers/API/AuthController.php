@@ -50,7 +50,7 @@ class AuthController extends Controller
                 return response()->json(['message' => 'Invalid Credentials']);
             } else {
                 // event-listener for mail and logs
-                Event::dispatch(new UserLogin($request->email));
+                //  Event::dispatch(new UserLogin($request->email));
 
                 // mail is now using events-listeners
                 // Mail::to($request->email)->send(new LoginEmail);

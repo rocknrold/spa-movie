@@ -48,13 +48,16 @@ $(document).ready(function(){
                         var poster = "../logo-02.jpg";
                     }
                     $('#film-table').append('<div class="col-sm-6" id="film_div_'+ id +'">'+
-                    '<div class="card h-100"><img class="card-img-top img-thumbnail" src="'+ poster +'" alt="Card image cap" style="max-width:50%;">'+
+                    '<div class="card h-100"><img class="card-img-top img-thumbnail" src="'+ poster +'" alt="Card image cap" style="max-width:50%;max-height:50%;">'+
                     '<div class="card-body">'+
                     '<h5 class="card-title">'+ value.name +'</h5>'+
                     '<p class="card-text">'+ value.info +'</p>'+
-                    '<button data-toggle="modal" data-target="#modal-film-edit" data-id="'+ value.id +'">'+
-                    '<i class="far fa-edit"></i></button><button class="deletebtn" data-id="'+ value.id +'">'+
-                    '<i class="fa fa-trash-o" style="font-size:24px; color:red"></i></button></div></div></div>');
+                    '<button data-toggle="modal" data-target="#modal-film-edit" data-id="'+ value.id +'" style="background-color:green">'+
+                    '<i class="far fa-edit"></i></button><button  style="background-color:red" class="deletebtn" data-id="'+ value.id +'">'+
+                    '<i class="fa fa-trash-o"></i></button>'+
+                    '<button data-toggle="modal" data-target="#modal-film-rate" data-id="'+ value.id +'" style="background-color:gold;size:27px;">'+
+                    '<i class="far fa-star"></i></button>'+
+                    '</div></div></div>');
                 });
             },
             error: function(){
@@ -159,21 +162,24 @@ $(document).ready(function(){
                         processData: false,
                         success: function(data) {
                             availableFilms.push({"label": data.name, "value": data.id });
-
-                            if(data.poster !== null){
-                                var poster ='/storage/'+ data.poster;
-                            }else {
+                     
+                            if(data.poster === undefined || data.poster === null){
                                 var poster = "../logo-02.jpg";
+                            }else {
+                                var poster ='/storage/'+ data.poster;
                             }
-                            console.log(poster);
+                            
                             $('#film-table').prepend('<div class="col-sm-6" id="film_div_'+ id +'">'+
-                            '<div class="card h-100"><img class="card-img-top img-thumbnail" src="'+ poster +'" alt="Card image cap" style="max-widht:50%;">'+
+                            '<div class="card h-100"><img class="card-img-top img-thumbnail" src="'+ poster +'" alt="Card image cap" style="max-width:50%;max-height:50%;">'+
                             '<div class="card-body">'+
                             '<h5 class="card-title">'+ data.name +'</h5>'+
                             '<p class="card-text">'+ data.info +'</p>'+
-                            '<button data-toggle="modal" data-target="#modal-film-edit" data-id="'+ data.id +'">'+
-                            '<i class="far fa-edit"></i></button><button class="deletebtn" data-id="'+ data.id +'">'+
-                            '<i class="fa fa-trash-o" style="font-size:24px; color:red"></i></button></div></div></div>');
+                            '<button data-toggle="modal" data-target="#modal-film-edit" data-id="'+ data.id +'" style="background-color:green;">'+
+                            '<i class="far fa-edit"></i></button><button class="deletebtn" data-id="'+ data.id +'" style="background-color:red;">'+
+                            '<i class="fa fa-trash-o"></i></button>'+
+                            '<button class="btnUserRating" data-id="'+ data.id +'" style="background-color:yellow;">'+
+                            '<i class="far fa-star"></i></button>'+
+                            '</div></div></div>');
                         },
                         error: function(error) {
                             console.log('error');
@@ -336,11 +342,11 @@ var availableCerts = [];
                 // dataType: 'json',
                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 
                         'Authorization' : 'Bearer '+ localStorage.getItem("access_token")},
-                // dataType: "json",
+                dataType: "json",
                 // contentType: "application/json",
                 contentType: false,
                 processData: false,
-                success: function() {
+                success: function(data) {
                     $.each(availableFilms,function(key,value){
                         if(id == value.value){
                             availableFilms.splice(key, 1);
@@ -352,12 +358,22 @@ var availableCerts = [];
 
                     $('#modal-film-edit').each(function(){
                         $(this).modal('hide'); });
+                    
+                    if(data.poster === undefined || data.poster === null){
+                        var poster = "../logo-02.jpg";
+                    }else {
+                        var poster ='/storage/'+ data.poster;
+                    }
     
-                    $('#film_div_'+ id).html('<div class="card h-100"><img class="card-img-top" src="../logo-02.jpg" alt="Card image cap">'+
+                    $('#film_div_'+ id).html('<div class="card h-100">'+
+                    '<img class="card-img-top img-thumbnail" src="'+ poster +'" alt="Card image cap" style="max-width:50%;max-height:50%;">'+
                     '<div class="card-body"><h5 class="card-title">'+ name +'</h5><p class="card-text">'+ info +'</p>'+
-                    '<button data-toggle="modal" data-target="#modal-film-edit" data-id="'+ id +'">'+
-                    '<i class="far fa-edit"></i></button><button class="deletebtn" data-id="'+ id +'">'+
-                    '<i class="fa fa-trash-o" style="font-size:24px; color:red"></i></button></div></div>');
+                    '<button data-toggle="modal" data-target="#modal-film-edit" data-id="'+ data.id +'" style="background-color:green;">'+
+                    '<i class="far fa-edit"></i></button><button class="deletebtn" data-id="'+ data.id +'" style="background-color:red;">'+
+                    '<i class="fa fa-trash-o"></i></button>'+
+                    '<button class="btnUserRating" data-id="'+ data.id +'" style="background-color:yellow;">'+
+                    '<i class="far fa-star"></i></button>'+
+                    '</div></div></div>');
                     
                 },
                 error: function(error) {
@@ -394,7 +410,6 @@ var availableCerts = [];
                         dataType: 'json',
                         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 
                                 'Authorization' : 'Bearer '+ localStorage.getItem("access_token")},
-                        dataType: "json",
                         contentType: "application/json",
                         success: function(data) {
                             $.each(availableFilms,function(key,value){
@@ -414,6 +429,53 @@ var availableCerts = [];
             }
         });
     });
+
+
+    // film rating by user 
+
+    $('#modal-film-rate').on('show.bs.modal', function (event) {
+        var id = $(event.relatedTarget).data('id');
+        $.ajax({
+            type: "get",
+            url: "/rating/show/"+ id +"/"+ localStorage.getItem('user_id') +"",
+            success: function(data){
+                console.log(data);
+                var n = $('input:checked').length;
+
+                if(Array.isArray(data) && data.length){
+                    n = data[0].rating_value;
+                    console.log(n);
+                }
+                
+                $("input[name=rate][value=" + n + "]").prop('checked', true);
+            }
+        });
+        $('input:radio').change(function(){
+            var userRating = this.value;
+            console.log(id + " from rate modal");
+            $.ajax({
+                type: "post",
+                url: "/rating",
+                data: {film_id : id, user_id: localStorage.getItem('user_id'), rating_value:userRating},
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                success: function (data){
+                    $('#modal-film-rate').modal('hide');
+                    $("#filmRateForm").trigger("reset");
+                },
+                error: function(error) {
+                    console.log('error');
+                }
+            });
+        });
+
+    });
+
+    // reset modal form of rating
+
+    $('#modal-film-rate').on('hidden.bs.modal', function (e) {
+        $("#filmRateForm").trigger("reset");
+    });
+
     
     }); //end document ready 
     

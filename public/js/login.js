@@ -91,10 +91,12 @@ $(document).ready(function(){
                              * once the login attempt is successful 
                              * data returned is stored on the localStorage
                              */
+                            const user_id = data["user"]["id"];
                             const email = data["user"]["email"];
                             const username = data["user"]["name"];
                             const access_token = data["access_token"];
 
+                            localStorage.setItem("user_id",user_id);
                             localStorage.setItem("email",email);
                             localStorage.setItem("username", username);
                             localStorage.setItem("access_token",access_token);
