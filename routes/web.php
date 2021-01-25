@@ -30,3 +30,7 @@ Route::get('/register',function(){
 Route::get('/logout',function(){
     return view('auth.logout');
 });
+
+
+Route::post('/rating', 'RatingController@store');
+Route::get('/rating/show/{film_id}/{user_id}', 'RatingController@show');

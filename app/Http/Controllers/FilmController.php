@@ -56,7 +56,8 @@ class FilmController extends Controller
             if(request()->has('poster')){
                 $film = Film::where('id', $id)->update(['poster' => request()->poster->store('uploads','public'),]);
             }
-            
+
+            $film = Film::find($id);
             return response()->json($film);
         }
     }

@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
     {
 
       factory(App\User::class,1)->create();
+
         $this->call([
           CertificateSeeder::class,
         	RoleSeeder::class,
@@ -20,7 +21,7 @@ class DatabaseSeeder extends Seeder
         	ProducerSeeder::class,
         	ActorSeeder::class,
         	FilmSeeder::class,
-          // UserSeeder::class,
+          // RatingSeeder::class,
           // FilmProducerSeeder::class,
           // FilmUserSeeder::class,
           // ActorRoleSeeder::class,

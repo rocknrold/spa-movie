@@ -32,3 +32,4 @@
 {{-- css asset--}}
 <link href="{{asset('css/validation.css')}}" rel="stylesheet">
 <link href="{{asset('css/jqueryUI.css')}}" rel="stylesheet">
+<link href="{{asset('css/ratings.css')}}" rel="stylesheet">
