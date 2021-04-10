@@ -99,7 +99,8 @@ $(document).ready(function(){
                             localStorage.setItem("username", username);
                             localStorage.setItem("access_token",access_token);
 
-                            location.reload();
+                            // location.reload();
+                            window.location.replace('/');
                         }
                     },
                     error: function(error) {
