@@ -67,9 +67,9 @@ class AuthController extends Controller
         if($request->ajax()){
             auth()->user()->tokens->each(function($token , $key){
                 // i could either do delete
-                $token->delete();
+                // $token->delete();
                 // or revoke the access token for authenticated user
-                // $token->revoke();
+                $token->revoke();
             });
             return response()->json([
                 'message' => 'Successfully logged out'
