@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -31,10 +32,10 @@ Route::middleware('auth:api')->group(function () {
         'as' => 'actor.browseActors',
     ]);
 
-    Route::get('/actor/show/{id}',[
-        'uses' => 'ActorController@show',
-        'as' => 'actor.show',
-    ]);
+    // Route::get('/actor/show/{id}',[
+    //     'uses' => 'ActorController@show',
+    //     'as' => 'actor.show',
+    // ]);
 
     Route::Resource('/actor', 'ActorController');
 
@@ -43,10 +44,10 @@ Route::middleware('auth:api')->group(function () {
         'as' => 'film.browseFilms',
     ]);
     
-    Route::get('/film/show/{id}',[
-        'uses' => 'FilmController@show',
-        'as' => 'film.show',
-    ]);
+    // Route::get('/film/show/{id}',[
+    //     'uses' => 'FilmController@show',
+    //     'as' => 'film.show',
+    // ]);
 
     Route::resource('/film', 'FilmController');
 
@@ -55,10 +56,10 @@ Route::middleware('auth:api')->group(function () {
         'as' => 'genre.browseGenres',
     ]);
     
-    Route::get('/genre/show/{id}',[
-        'uses' => '\App\Http\Controllers\genreController@show',
-        'as' => 'genre.show',
-    ]);
+    // Route::get('/genre/show/{id}',[
+    //     'uses' => '\App\Http\Controllers\genreController@show',
+    //     'as' => 'genre.show',
+    // ]);
     
     Route::resource('/genre', 'GenreController');
 
@@ -67,10 +68,11 @@ Route::middleware('auth:api')->group(function () {
         'as' => 'producer.browseProducers',
     ]);
     
-    Route::get('/producer/show/{id}',[
-        'uses' => '\App\Http\Controllers\ProducerController@show',
-        'as' => 'producer.show',
-    ]);
+    // Route::get('/producer/show/{id}',[
+    //     'uses' => '\App\Http\Controllers\ProducerController@show',
+    //     'as' => 'producer.show',
+    // ]);
+
     Route::resource('/producer', '\App\Http\Controllers\ProducerController');
 
     Route::get('/role/all',[
@@ -78,10 +80,10 @@ Route::middleware('auth:api')->group(function () {
         'as' => 'role.browseRoles',
     ]);
     
-    Route::get('/role/show/{id}',[
-        'uses' => '\App\Http\Controllers\RoleController@show',
-        'as' => 'role.show',
-    ]);
+    // Route::get('/role/show/{id}',[
+    //     'uses' => '\App\Http\Controllers\RoleController@show',
+    //     'as' => 'role.show',
+    // ]);
     
     Route::resource('/role', 'RoleController');
 

@@ -10,5 +10,6 @@ $factory->define(Actor::class, function (Faker $faker) {
     return [
         'name'=>$faker->actor,
         'note'=>$faker->sentence($nbWords = 6, $variableNbWords = true),
+        'poster'=>"https://ui-avatars.com/api/?rounded=true",
     ];
 });

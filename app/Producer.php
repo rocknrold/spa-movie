@@ -11,7 +11,7 @@ class Producer extends Model
 		'name','email','website'
 	];
 
-    public function filmProducers(){
-        return $this->hasMany(FilmProducer::class);
+    public function films(){
+        return $this->hasMany(Film::class);
     }
 }

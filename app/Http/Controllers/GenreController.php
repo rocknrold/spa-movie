@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use View;
 use App\Genre;
+use DB;
 
 class GenreController extends Controller
 {
@@ -23,10 +24,10 @@ class GenreController extends Controller
 
     public function browseGenres(Request $request)
     {
-        if ($request->ajax()){
-            $genre = Genre::orderBy('updated_at','desc')->get();
+        // if ($request->ajax()){
+            $genre = Genre::all();
             return response()->json($genre);
-        }
+        // }
     }
 
     /**
@@ -49,10 +50,10 @@ class GenreController extends Controller
      */
     public function show(Request $request, $id)
     {
-        if ($request->ajax()) {
+        // if ($request->ajax()) {
             $genre = Genre::where('id',$id)->first();
              return response()->json($genre);
-        }
+        // }
     }
 
     /**
@@ -76,10 +77,10 @@ class GenreController extends Controller
      */
     public function update(Request $request,$id)
     {
-        if ($request->ajax()) {
+        // if ($request->ajax()) {
             $genre = Genre::where('id', $id)->update(['name' => $request->name]);
             return response()->json($genre);
-        }
+        // }
     }
 
     /**

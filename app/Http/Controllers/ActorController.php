@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Actor;
+use App\Film;
 use View;
 use Redirect;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 
 class ActorController extends Controller
 {
@@ -23,10 +25,10 @@ class ActorController extends Controller
 
     public function browseActors(Request $request)
     {
-        if ($request->ajax()){
+        // if ($request->ajax()){
             $actor = Actor::orderBy('updated_at','desc')->get();
             return response()->json($actor);
-         }
+        //  }
     }
 
 
@@ -38,8 +40,20 @@ class ActorController extends Controller
      */
     public function store(Request $request)
     {
-        $actor = Actor::create($request->all());
-        return response()->json($actor);
+        $actor = new Actor();
+        $actor->name = $request->name;
+        $actor->note = $request->note;
+        $actor->poster = 'storage/images/'.str_replace(" ","_",$request->name).'.jpg';
+        $actor->save();
+        
+        Storage::put('public/images/'.str_replace(" ","_",$request->name).'.jpg',base64_decode($request->poster));
+        
+        if($actor){
+            return response()->json(["actor"=>$actor, "status"=>200]);
+        }
+
+        return resoponse()->json(["message"=>"something went wrong"]);
+
     }
 
     /**
@@ -50,10 +64,10 @@ class ActorController extends Controller
      */
     public function show(Request $request, $id)
     {
-        if ($request->ajax()) {
-            $actor = Actor::where('id',$id)->first();
+        // if ($request->ajax()) {
+            $actor = Actor::with(['films'])->where('id',$id)->first();
              return response()->json($actor);
-        }
+        // }
     }
 
     /**
@@ -77,11 +91,14 @@ class ActorController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if ($request->ajax()) {
-            $actor = Actor::where('id', $id)->update(['name' => $request->name, 
-            'note' => $request->note]);
-            return response()->json($actor);
-        }
+        $actor = Actor::findOrFail($id);
+        // dd($request->name);
+        $actor->poster = 'storage/images/'.str_replace(" ","_",$request->name).'.jpg';
+        $actor->update(["name"=>$request->name, "note"=>$request->note]);
+
+        Storage::put('public/images/'.str_replace(" ", "_", $request->name).'.jpg',base64_decode($request->poster));
+        
+        return response()->json($actor);
     }
 
     /**
@@ -94,7 +111,14 @@ class ActorController extends Controller
     {
         $actor = Actor::findOrFail($id);
         $actor->delete();
+        
+        $filename =  substr($actor->poster,15);
+        // dd($filename);
+        // ADDED THIS LINE FOR DELETING IMAGES
+        Storage::delete('public/images/'.$filename);
+        
         return response()->json(["success" => "Actor deleted successfully.",
              "data" => $actor,"status" => 200]);
     }
+
 }

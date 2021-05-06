@@ -51,6 +51,7 @@ return [
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
+            // public url na iaappend sa path ng image.
             'url' => env('APP_URL').'/storage',
             'visibility' => 'public',
         ],

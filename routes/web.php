@@ -15,18 +15,18 @@ use Illuminate\Support\Facades\Mail;
 |
 */
 
-Route::get('/',function(){
-    return view('layouts.app');
-});
+// Route::get('/',function(){
+//     return view('layouts.app');
+// });
 
-Route::get('/login',function(){
-    return view('auth.login');
-});
+// Route::get('/login',function(){
+//     return view('auth.login');
+// });
 
-Route::get('/register',function(){
-    return view('auth.register');
-});
+// Route::get('/register',function(){
+//     return view('auth.register');
+// });
 
-Route::get('/logout',function(){
-    return view('auth.logout');
-});
+// Route::get('/logout',function(){
+//     return view('auth.logout');
+// });

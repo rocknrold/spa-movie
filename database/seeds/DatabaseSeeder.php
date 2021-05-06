@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
           // UserSeeder::class,
           // FilmProducerSeeder::class,
           // FilmUserSeeder::class,
-          // ActorRoleSeeder::class,
+          ActorRoleSeeder::class,
         ]);
     }
 }

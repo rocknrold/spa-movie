@@ -17,7 +17,7 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
-        if($request->ajax()){
+        // if($request->ajax()){
             $validator = Validator::make($request->all(), [
                 'name' => 'required|max:55',
                 'email' => 'email|required|unique:users',
@@ -35,7 +35,7 @@ class AuthController extends Controller
             $user->save();
 
             return response()->json([ 'success' => 'Registered Successfully', 200]);
-        }
+        // }
     }
 
     public function login(Request $request)
@@ -45,12 +45,12 @@ class AuthController extends Controller
             'password' => 'required'
         ]);
 
-        if ($request->ajax()){
+        // if ($request->ajax()){
             if (!auth()->attempt($loginData)) {
                 return response()->json(['message' => 'Invalid Credentials']);
             } else {
                 // event-listener for mail and logs
-                Event::dispatch(new UserLogin($request->email));
+                // Event::dispatch(new UserLogin($request->email));
 
                 // mail is now using events-listeners
                 // Mail::to($request->email)->send(new LoginEmail);
@@ -58,23 +58,23 @@ class AuthController extends Controller
                 $accessToken = auth()->user()->createToken('authToken')->accessToken;
                 return response()->json(['user' => auth()->user(), 'access_token' => $accessToken]);
             }    
-        }
+        // }
 
     }
 
     public function logout(Request $request)
     {
-        if($request->ajax()){
+        // if($request->ajax()){
             auth()->user()->tokens->each(function($token , $key){
                 // i could either do delete
-                // $token->delete();
+                $token->delete();
                 // or revoke the access token for authenticated user
-                $token->revoke();
+                // $token->revoke();
             });
             return response()->json([
                 'message' => 'Successfully logged out'
             ]);
-        }
+        // }
     }
 
     public function user(Request $request)

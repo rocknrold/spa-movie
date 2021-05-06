@@ -15,9 +15,9 @@ class CertificateController extends Controller
 
     public function browseCerts(Request $request)
     {
-        if ($request->ajax()){
-            $certificate = Certificate::orderBy('updated_at','desc')->get();
+        // if ($request->ajax()){
+            $certificate = Certificate::all();
             return response()->json($certificate);
-         }
+        //  }
     }
 }

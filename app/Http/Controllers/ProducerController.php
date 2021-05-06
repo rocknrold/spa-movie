@@ -24,10 +24,10 @@ class ProducerController extends Controller
 
     public function browseProducers(Request $request)
     {
-        if ($request->ajax()){
+        // if ($request->ajax()){
             $producer = Producer::orderBy('updated_at','desc')->get();
             return response()->json($producer);
-        }
+        // }
     }
 
     /**
@@ -38,8 +38,15 @@ class ProducerController extends Controller
      */
     public function store(Request $request)
     {
-        $producer = Producer::create($request->all());
-        return response()->json($producer);
+        $producer = Producer::where('email',$request->email)->first();
+
+        if($producer){
+            return response()->json(["message"=>"Email already been taken"]);
+        } else {
+            $producer = Producer::create($request->all());
+            return response()->json($producer);
+        }
+        
     }
 
     /**
@@ -50,10 +57,10 @@ class ProducerController extends Controller
      */
     public function show(Request $request, $id)
     {
-        if ($request->ajax()) {
-            $producer = Producer::where('id',$id)->first();
+        // if ($request->ajax()) {
+            $producer = Producer::with(['films'])->where('id',$id)->first();
              return response()->json($producer);
-        }
+        // }
     }
 
     /**
@@ -77,11 +84,12 @@ class ProducerController extends Controller
      */
     public function update(Request $request,$id)
     {
-        if ($request->ajax()) {
+        // if ($request->ajax()) {
+            // dd($request);
             $producer = Producer::where('id', $id)->update(['name' => $request->name, 
             'email' => $request->email, 'website' => $request->website]);
-            return response()->json($producer);
-        }
+            return response()->json(["status"=>$producer]);
+        // }
     }
 
     /**

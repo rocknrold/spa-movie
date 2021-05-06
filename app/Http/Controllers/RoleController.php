@@ -23,10 +23,10 @@ class roleController extends Controller
 
     public function browseRoles(Request $request)
     {
-        if ($request->ajax()){
+        // if ($request->ajax()){
             $role = Role::orderBy('updated_at','desc')->get();
             return response()->json($role);
-        }
+        // }
     }
 
     /**
@@ -43,10 +43,10 @@ class roleController extends Controller
 
     public function show(Request $request, $id)
     {
-        if ($request->ajax()) {
+        // if ($request->ajax()) {
             $role = Role::where('id',$id)->first();
              return response()->json($role);
-        }
+        // }
     }
 
     /**
@@ -70,10 +70,10 @@ class roleController extends Controller
      */
     public function update(Request $request,$id)
     {
-        if ($request->ajax()) {
+        // if ($request->ajax()) {
             $role = Role::where('id', $id)->update(['name' => $request->name]);
             return response()->json($role);
-        }
+        // }
     }
 
     /**

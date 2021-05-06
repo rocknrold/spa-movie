@@ -17,6 +17,7 @@ class CreateActorsTable extends Migration
             $table->id();
             $table->string('name',45);
             $table->text('note');
+            $table->text('poster');
             $table->unsignedBigInteger('media_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
